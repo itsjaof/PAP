@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alhandra Rio | Painel de Controlo</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/dashboard.css') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#" class="logo">
+          <img src="{{ url_for('static', filename='home/testemunhos/1.png') }}" alt="">
+          <span class="nav-item">{{ session['username'] }}</span>
+        </a></li>
+        <li><a href="#">
+          <i class="fas fa-home"></i>
+          <span class="nav-item">Inicio</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-user"></i>
+          <span class="nav-item">Perfil</span>
+        </a></li>
+        {% if user.type == 'ADMIN' %}
+          <li><a href="">
+            <i class="fas fa-solid fa-users"></i>
+            <span class="nav-item">Utilizadores</span>
+          </a></li>
+          <li><a href="">
+            <i class="fas fa-solid fa-envelope"></i>
+            <span class="nav-item">Mensagens</span>
+          </a></li>
+        {% endif %}
+        {% if user.type == 'STAFF' %}
+          <li><a href="/messages">
+            <i class="fas fa-solid fa-envelope"></i>
+            <span class="nav-item">Mensagens</span>
+          </a></li>
+        {% endif %}
+        <li><a href="">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Preferências</span>
+        </a></li>
+        <li><a href="/logout" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Sair</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Informações</h1>
+      </div>
+      <section class="main-content">
+        <div class="content-box">
+          <div class="content">
+            <p>Bem-vindo de volta <strong>{{ session['username'] }}</strong></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+</body>
+</html>

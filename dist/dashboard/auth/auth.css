@@ -1,0 +1,111 @@
+body {
+	background-color: #f0f0f0;
+}
+
+.login-box {
+	width: 300px;
+	background-color: #fff;
+	margin: 50px auto 0;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+	text-align: center;
+}
+
+p {
+	margin-top: 15px;
+	font-size: 15px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	margin-top: 10px;
+    font-family: "Open Sans", sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+}
+
+#notification {
+	text-align: left;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #ffcccc;
+    color: #ff0000;
+    padding: 10px 35px 10px 55px;
+    display: none;
+    border-radius: 10px;
+    animation: slide 5s ease-in-out;
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+  
+@keyframes slide {
+    0% {
+      transform: translateX(200%);
+    }
+    20% {
+      transform: translateX(0%);
+    }
+    80% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+	padding: 10px;
+	border-radius: 5px;
+	border: none;
+	outline: none;
+	margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+
+input[type="submit"] {
+	background-color: #4CAF50;
+	color: #fff;
+	padding: 10px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+    font-family: Arial, sans-serif;
+	font-size: 16px;
+}
+
+h2 {
+    font-family: "Helvica Neue", sans-serif;
+    font-size: 24px;
+    font-weight: bold;   
+}
+
+input[type="submit"]:hover {
+	background-color: #3e8e41;
+}
+
+a {
+	font: 'Poppins', sans-serif;
+	text-decoration: none;
+}
+
+header img {
+	display: block;
+	margin: 50px auto 20px;
+	max-width: 100%;
+	height: auto;
+}

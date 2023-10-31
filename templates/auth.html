@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alhandra Rio | Login</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/auth/auth.css') }}">
+	<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head>
+<body>
+    <header>
+        <a href="/"><img src="{{ url_for('static', filename='shared/img/logo.png') }}"></a>
+    </header>
+	<div class="login-box">
+		<h2>Autenticação</h2>
+		<form action="/auth" method="post">
+			<label for="login">Utilizador:</label>
+			<input type="text" id="username" name="username" placeholder="Insira o seu nome de utilizador" required>
+		
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" placeholder="Insira a sua senha" required>		  
+
+			<input id="login" type="submit" name="login-form-submit" value="Entrar">
+			
+			<p><i class="fa-solid fa-circle-question" style="color: #005eff;"></i> Não possui conta? <a href="/registo">Clique aqui</a> e efetue o registo.</p>
+		</form>
+	</div>
+
+	{% include "shared/notification.html" %}
+
+	{% if 'errormsg' in session %}
+		<script>
+			var logError = ["{{session['errormsg'][0]}}", "{{session['errormsg'][1]}}"]
+		</script>
+	{% endif %}
+</body>
+</html>

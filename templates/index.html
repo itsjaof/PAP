@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import dos estilos da página e favicon utilizando python (jinja2). Onde este busca automaticamente no diretório do servidor (Neste caso, na pasta configurada no flask) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/style.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+
+    <!-- Script para tornar a NAVBAR sempre no topo da página -->
+    <script src="{{ url_for('static', filename='shared/js/StickyNavbar.js') }}"></script>
+
+    <!-- Import para a utilização de fontes pa\ra o header da página -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Import para a utilização de fontes e imagens para o conteudo da página -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <!-- Import de estilos e scripts para o funcionamento da secção testemunhas -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared/css/swiper-bundle.min.css') }}">
+    <script src="{{ url_for('static', filename='shared/js/swiper-bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='shared/js/Swiper.js') }}"></script>
+
+    <title>Escola de Condução Alhandra Rio</title>
+</head>
+<body>
+  <!--
+    WEBSITE HEADER
+  -->
+  <header>
+    <a href="/"><img class="logo" src="{{ url_for('static', filename='shared/img/logo.png') }}" alt="Logo"></a>
+    <ul>
+        <li><a href="#cartas">Cartas</a></li>
+        <li><a href="#testemunhos">Testemunhos</a></li>
+        <li><a href="#contactos">Contactos</a></li>
+        <li><a href="/auth" target="_blank">Entrar</a></li>
+    </ul>
+  </header>
+  <section class="banner">
+      <div class="content">
+          <h1>TIRA JÁ A TUA CARTA DE CONDUÇÃO!</h1>
+          <p>A Escola de Condução Alhandra Rio está presente no mercado desde 2011, <br> contando com 20 anos de experiência por parte dos seus fundadores e instrutores.</p>
+          <div>
+              <button type="button" role="button" onclick="window.location.href='#cartas'">Mais Informações</button>
+          </div>
+      </div>
+  </section>
+
+    <!--
+        WEBSITE MAIN CONTENT
+    -->
+
+    <main>
+        <!--
+            FEATURES
+        -->
+
+        <section class="cartas" id="cartas">
+            <div class="row">
+              <h1>Cartas Disponíveis</h1>
+            </div>
+            <div class="row">
+              <!-- Column One -->
+              <div class="column">
+                <div class="card">
+                  <div class="icon">
+                    <i class="fa-solid fa-car"></i>
+                  </div>
+                  <h3>Carta de Ligeiros</h3>
+                  <p>B e BE</p>
+                </div>
+              </div>
+              <!-- Column Two -->
+              <div class="column">
+                <div class="card">
+                  <div class="icon">
+                    <i class="fa-solid fa-motorcycle"></i>
+                  </div>
+                  <h3>Carta de Motociclos</h3>
+                  <p>A1, A2 e A</p>
+                </div>
+              </div>
+              <!-- Column Three -->
+              <div class="column">
+                <div class="card">
+                  <div class="icon">
+                    <i class="fa-solid fa-truck"></i>
+                  </div>
+                  <h3>Carta de Pesados</h3>
+                  <p>C e C+E</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!--
+            TESTEMUNIALS
+          -->
+
+          <section class="testemunhos" id="testemunhos">
+            <div class="slide-container swiper">
+              <div class="row">
+                  <h1>Testemunhos</h1>
+              </div>
+              <div class="slide-content">
+                  <div class="card-wrapper swiper-wrapper">
+                      <div class="card swiper-slide">
+                          <div class="image-content">
+                              <span class="overlay"></span>
+  
+                              <div class="card-image">
+                                  <img src="{{ url_for('static', filename='home/testemunhos/default.png') }}" alt="" class="card-img">
+                              </div>
+                          </div>
+  
+                          <div class="card-content">
+                              <h2 class="name">Utilizador</h2>
+                              <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
+                          </div>
+                      </div>
+                      <div class="card swiper-slide">
+                          <div class="image-content">
+                              <span class="overlay"></span>
+  
+                              <div class="card-image">
+                                <img src="{{ url_for('static', filename='home/testemunhos/default.png') }}" alt="" class="card-img">
+                              </div>
+                          </div>
+
+                          <div class="card-content">
+                              <h2 class="name">Utilizador</h2>
+                              <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
+                          </div>
+                      </div>
+                      <div class="card swiper-slide">
+                          <div class="image-content">
+                              <span class="overlay"></span>
+  
+                              <div class="card-image">
+                                <img src="{{ url_for('static', filename='home/testemunhos/default.png') }}" alt="" class="card-img">
+                              </div>
+                          </div>
+  
+                          <div class="card-content">
+                              <h2 class="name">Utilizador</h2>
+                              <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
+                          </div>
+                      </div>
+                      <div class="card swiper-slide">
+                          <div class="image-content">
+                              <span class="overlay"></span>
+  
+                              <div class="card-image">
+                                <img src="{{ url_for('static', filename='home/testemunhos/default.png') }}" alt="" class="card-img">
+                              </div>
+                          </div>
+  
+                          <div class="card-content">
+                              <h2 class="name">Utilizador</h2>
+                              <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>  
+                          </div>
+                      </div>
+                  </div>
+              </div>
+  
+              <div class="swiper-button-next swiper-navBtn"></div>
+              <div class="swiper-button-prev swiper-navBtn"></div>
+              <div class="swiper-pagination"></div>
+          </div>
+          </section>
+
+          <!--
+            TESTEMUNIALS
+          -->
+
+          <div class="row">
+            <h1>Contacto</h1>
+          </div>
+
+          <section class="contactos" id="contactos">
+            <div class="container">
+              <div class="contact-content">
+                <div class="left-side">
+                  <div class="address details">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="topic">Endereço</div>
+                    <div class="text-one">Rua Dr.Augusto Assis n°11,</div>
+                    <div class="text-two">2600-416, Alhandra.</div>
+                  </div>
+                  <div class="phone details">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="topic">Telefone</div>
+                    <div class="text-one">216 082 713</div>
+                    <div class="text-two">966 435 152</div>
+                  </div>
+                  <div class="email details">
+                    <i class="fas fa-envelope"></i>
+                    <div class="topic">Email</div>
+                    <div class="text-one">e.c.alhandrario@gmail.com</div>
+                  </div>
+                </div>
+                <div class="right-side">
+                  <div class="topic-text">Envie-nos uma mensagem</div>
+                  <p>Em caso de dúvidas poderá enviar-nos uma mensagem, preenchendo os campos abaixo.</p>
+                <form method="POST" action="/">
+                  <div class="input-box">
+                    <input id="name" name="name" type="text" placeholder="Nome" required>
+                  </div>
+                  <div class="input-box">
+                    <input id="email" name="email" type="email" placeholder="Email" required>
+                  </div>
+                  <div class="input-box message-box">
+                      <textarea id="message" name="message" placeholder="Mensagem"></textarea>
+                  </div>
+                  <div class="button">
+                    <input type="submit" value="Enviar" >
+                  </div>
+                </form>
+              </div>
+              </div>
+            </div>
+          </section>
+          
+    </main>
+</body>
+</html>

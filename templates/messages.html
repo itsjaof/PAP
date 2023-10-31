@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alhandra Rio | Painel de Controlo</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="/profile" class="logo">
+          <img src="{{ url_for('static', filename='home/testemunhos/1.png') }}" alt="">
+          <span class="nav-item">{{ session['username'] }}</span>
+        </a></li>
+        <li><a href="/dashboard">
+          <i class="fas fa-home"></i>
+          <span class="nav-item">Inicio</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-user"></i>
+          <span class="nav-item">Perfil</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Preferências</span>
+        </a></li>
+        <li><a href="/logout" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Sair</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1>Mensagens</h1>
+      </div>
+      <section class="main-content">
+          <div class="content">
+             {% for content in messages %}
+                <div class="box">
+                  <p><strong>ID:</strong> {{ content.id }}</p>
+                  <p><strong>Enviado por:</strong> {{ content.name }}</p>
+                  <i class="fas fa-envelope" style="color: #966100;"></i>
+                  <p><strong>Mensagem:</strong> {{ content.message }}</p>
+
+                  <!-- Se quiser alterar o modo de enviar email para o gmail, devo usar este link
+                  https://mail.google.com/mail/?view=cm&to=recipient@example.com&su=Your%20Subject -->
+
+                  <button onclick="window.location.href = 'mailto:{{ content.email }}'">Enviar email</button>
+                  <button style="background-color: red;">Remover</button>
+                </div>
+             {% endfor %}
+          </div>
+      </section>
+    </section>    
+    </section>
+  </div>
+</body>
+</html>

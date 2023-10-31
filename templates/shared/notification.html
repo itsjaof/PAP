@@ -1,0 +1,28 @@
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ====== Fontawesome CDN Link ====== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+    <!-- ====== CSS ====== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='shared/css/notification.css') }}">
+</head>
+<body>
+    <div id="toast" class="toast">
+        <div id="toast-content" class="toast-content">
+            <i id="checkMark" class="fas fa-solid fa-check check"></i>
+            <div class="message">
+                <span id="text text-1" class="text text-1">Sucesso</span>
+                <span id="text text-2" class="text text-2">Alterações salvas com sucesso</span>
+            </div>
+        </div>
+        <i class="fa-solid fa-xmark close"></i>
+        <div id="progress" class="progress"></div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='shared/js/Notification.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Erro</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='shared/css/error.css') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Oops! Algo correu mal :(</h1>
+    <p>Esta página não existe ou estamos com problemas, por favor tente mais tarde.</p>
+    <p>O que correu mal: {{error}}</p>
+    <a href="/">Voltar</a>
+  </div>
+</body>
+</html>
