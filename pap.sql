@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
 --
 -- Host: localhost    Database: pap
 -- ------------------------------------------------------
--- Server version	8.0.34-0ubuntu0.22.04.1
+-- Server version	8.0.35-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `auth`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` enum('STAFF','ADMIN') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
@@ -55,7 +55,7 @@ CREATE TABLE `messages` (
   `email` varchar(100) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,'Nome Teste','teste@email.com','Mensagem de teste'),(2,'Teste 2','teste2@teste.pt','Esta Ã© a segunda mensagem de teste!');
+INSERT INTO `messages` VALUES (1,'Nome Teste','teste@email.com','Mensagem de teste'),(2,'Teste 2','teste2@teste.pt','Esta Ã© a segunda mensagem de teste!'),(3,'gay','gay@gmail.com','vc Ã© gay');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,12 +77,12 @@ DROP TABLE IF EXISTS `sessions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sessions` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `session_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `session_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `data` blob,
   `expiry` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `session_id` (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +91,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES (3,'session:c4788175-e665-4358-ad08-df62fbe0a62c',_binary '€•m\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒerrormsg”]”(ŒEste email jÃ¡ existe”ŒEste email jÃ¡ foi registado.”eŒusername”Œadmin”u.','2023-11-07 13:47:21'),(4,'session:5695ee5d-6031-43ed-a20f-c7f654398d5c',_binary '€•x\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒerrormsg”]”(ŒCredenciais InvÃ¡lidas!”Œ&Verifique os campos e tente novamente.”eŒusername”Œadmin”u.','2023-11-03 13:19:53'),(5,'session:2a0900bd-2e7e-42dd-84ca-850620c1ce59',_binary '€•&\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒusername”Œadmin”u.','2023-11-08 18:26:38'),(6,'session:843e1a49-8bf0-48f1-939e-06452bb777cc',_binary '€•\0\0\0\0\0\0\0}”Œ\n_permanent”ˆs.','2023-11-06 09:15:09');
+INSERT INTO `sessions` VALUES (18,'session:655e0783-b570-424b-b3ef-faebfe8ac9e8',_binary '€•\É\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒerrormsg”]”(ŒCredenciais InvÃ¡lidas!”Œ&Verifique os campos e tente novamente.”eŒ_flashes”]”Œerror”Œ6Login failed. Please check your username and password.”†”aŒusername”Œadmin”u.','2024-02-12 15:52:45'),(20,'session:7576f91f-9ed3-4c04-92c8-3590a8f5e1d6',_binary '€•¶\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒ_flashes”]”Œerror”Œ6Login failed. Please check your username and password.”†”aŒerrormsg”]”(ŒCredenciais InvÃ¡lidas!”Œ&Verifique os campos e tente novamente.”eu.','2024-01-31 13:12:42'),(21,'session:d1ce8d7c-6a41-4cc5-92ed-c0bce6f2856a',_binary '€•&\0\0\0\0\0\0\0}”(Œ\n_permanent”ˆŒusername”Œadmin”u.','2024-02-12 15:56:05');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -104,4 +104,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-09 17:56:01
+-- Dump completed on 2024-01-14  8:29:16

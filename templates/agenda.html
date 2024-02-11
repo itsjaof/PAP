@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alhandra Rio | Painel de Controlo</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="/profile" class="logo">
+          <img src="{{ url_for('static', filename='home/testemunhos/1.png') }}" alt="">
+          <span class="nav-item">{{ session['username'] }}</span>
+        </a></li>
+        <li><a href="/dashboard">
+          <i class="fas fa-home"></i>
+          <span class="nav-item">Inicio</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-user"></i>
+          <span class="nav-item">Perfil</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Preferências</span>
+        </a></li>
+        <li><a href="/logout" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Sair</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1 style="color: #966100;">Agenda</h1>
+      </div>
+      <section class="main-content">
+          <div class="content">
+                <div class="box">
+                  <p><strong>Data:</strong> 24/01/2023</p>
+                  <p><strong>Professor:</strong> Louis Minerals</p>
+                  <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
+                  <p><strong>Tipo:</strong> Código</p>
+
+                  <button style="background-color: #966100;" onclick="window.location.href = 'mailto:Teste?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
+                </div>
+          </div>
+      </section>
+    </section>    
+    </section>
+  </div>
+</body>
+</html>

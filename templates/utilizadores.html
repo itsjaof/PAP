@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alhandra Rio | Painel de Controlo</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="/profile" class="logo">
+          <img src="{{ url_for('static', filename='home/testemunhos/1.png') }}" alt="">
+          <span class="nav-item">{{ session['username'] }}</span>
+        </a></li>
+        <li><a href="/dashboard">
+          <i class="fas fa-home"></i>
+          <span class="nav-item">Inicio</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-user"></i>
+          <span class="nav-item">Perfil</span>
+        </a></li>
+        <li><a href="">
+          <i class="fas fa-cog"></i>
+          <span class="nav-item">Preferências</span>
+        </a></li>
+        <li><a href="/logout" class="logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="nav-item">Sair</span>
+        </a></li>
+      </ul>
+    </nav>
+
+    <section class="main">
+      <div class="main-top">
+        <h1 style="color: #966100;">Agenda</h1>
+      </div>
+      <section class="main-content">
+        {% for user in users %}
+            <div class="content">
+                <div class="box">
+                  <p><strong>ID:</strong> {{user.id}}</p>
+                  <p><strong>Utilizador:</strong> {{user.username}}</p>
+                  <i class="fa-solid fa-user"></i>
+                  <p><strong>Nível de Permissões:</strong> {{user.type}}</p>
+                
+                  <button style="background-color: #966100;">Editar...</button>
+                  <button style="background-color: red;">Remover</button>
+                </div>
+            </div>
+        {% endfor %}
+      </section>
+    </section>    
+    </section>
+  </div>
+</body>
+</html>
