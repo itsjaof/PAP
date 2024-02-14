@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for, current_app, abort, jsonify
-from jinja2 import TemplateNotFound
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 
@@ -19,6 +18,10 @@ class Messages(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.String, nullable=False)
+
+def check_session():
+    if not session.get('username'):
+        raise abort(500, 'AUTH_COOKIE_NOT_FOUND')
 
 @routes.errorhandler(Exception) # Website error handler
 def error(error):
@@ -51,6 +54,7 @@ def auth():
 
 @routes.route('/handle_auth', methods=['POST'])
 def handle_auth():
+
     is_valid = Auth.query.filter_by(username=request.form.get('username'), password=request.form.get('password')).first()
 
     if is_valid:
@@ -101,8 +105,7 @@ def logout():
 
 @routes.route('/dashboard/messages')
 def messages():
-    if not session.get('username'):
-        return redirect('/')
+    check_session()
     
     messages = Messages.query.all()
     return render_template('messages.html', messages=messages)
@@ -116,12 +119,16 @@ def clear_cookie():
     return 'Error cookie new value {}'.format(session['errormsg'])
 
 
-@routes.route('/agenda')
+@routes.route('/dashboard/agenda')
 def agenda():
+    check_session()
+
     return render_template('agenda.html')
 
-@routes.route('/users')
+@routes.route('/dashboard/users')
 def users():
+    check_session()
+
     users = Auth.query.all()
 
     return render_template('utilizadores.html', users=users)
