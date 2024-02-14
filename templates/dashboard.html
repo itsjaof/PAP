@@ -1,7 +1,7 @@
 <!-- 
   TODO:
   - Criar um iframe para a navbar, com o "overflow" escondido;
- -->
+-->
 
 <!DOCTYPE html>
 <html lang="pt-PT">
@@ -18,19 +18,15 @@
   <div class="container">
     <nav>
       <ul>
-        <li><a href="#" class="logo">
+        <li><a href="/dashboard/perfil" class="logo">
           <img src="{{ url_for('static', filename='/users/user.png') }}" alt="">
           <span class="nav-item">{{ session['username'] }}</span>
         </a></li>
-        <li><a href="#">
+        <li><a href="/dashboard">
           <i class="fas fa-home"></i>
           <span class="nav-item">Inicio</span>
         </a></li>
-        <li><a href="">
-          <i class="fas fa-user"></i>
-          <span class="nav-item">Perfil</span>
-        </a></li>
-        <li><a href="">
+        <li><a href="/dashboard/agenda">
           <i class="fas fa-solid fa-calendar-days"></i>
           <span class="nav-item">Agenda</span>
         </a></li>
@@ -65,7 +61,6 @@
         <div class="content-box">
           <div class="content">
             <p>Bem-vindo de volta <strong>{{ session['username'] }}</strong></p>
-            <p>Mensagens enviadas hoje: <strong>{{ session['username'] }}</strong></p>
           </div>
         </div>
       </section>

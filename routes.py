@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, url_for, current_app, abort, jsonify
+from flask import Blueprint, render_template, request, session, redirect, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 
@@ -93,7 +93,7 @@ def dashboard():
         return redirect('/auth')
     
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard.html', user=user)
+    return render_template('/dashboard/dashboard.html', user=user)
 
 @routes.route('/logout')
 def logout():
@@ -108,7 +108,7 @@ def messages():
     check_session()
     
     messages = Messages.query.all()
-    return render_template('messages.html', messages=messages)
+    return render_template('dashboard/messages.html', messages=messages)
 
 @routes.route('/clear_cookie')
 def clear_cookie():
@@ -123,7 +123,7 @@ def clear_cookie():
 def agenda():
     check_session()
 
-    return render_template('agenda.html')
+    return render_template('dashboard/agenda.html')
 
 @routes.route('/dashboard/users')
 def users():
@@ -131,7 +131,7 @@ def users():
 
     users = Auth.query.all()
 
-    return render_template('utilizadores.html', users=users)
+    return render_template('dashboard/utilizadores.html', users=users)
 
 """
 @routes.route('/', defaults={'page':'index'}, methods=['GET', 'POST'])

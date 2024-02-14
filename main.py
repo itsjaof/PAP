@@ -1,4 +1,4 @@
-from routes import routes, db, sess
+from routes import routes, db, sess, error
 from flask import Flask
 import os # Biblioteca usada para esconder o nome de utilizador e palavra-passe nas variáveis de ambiente
 
@@ -15,6 +15,7 @@ db.init_app(app)
 sess.init_app(app)
 
 app.register_blueprint(routes)
+app.register_error_handler(Exception, error)
 
 if __name__ == "__main__":
     with app.app_context():
