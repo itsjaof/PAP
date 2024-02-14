@@ -108,7 +108,8 @@ def messages():
     check_session()
     
     messages = Messages.query.all()
-    return render_template('dashboard/messages.html', messages=messages)
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/messages.html', messages=messages, user=user)
 
 @routes.route('/clear_cookie')
 def clear_cookie():
@@ -123,7 +124,8 @@ def clear_cookie():
 def agenda():
     check_session()
 
-    return render_template('dashboard/agenda.html')
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/agenda.html', user=user)
 
 @routes.route('/dashboard/users')
 def users():
@@ -131,7 +133,8 @@ def users():
 
     users = Auth.query.all()
 
-    return render_template('dashboard/utilizadores.html', users=users)
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/utilizadores.html', users=users, user=user)
 
 """
 @routes.route('/', defaults={'page':'index'}, methods=['GET', 'POST'])

@@ -11,30 +11,7 @@
 </head>
 <body>
   <div class="container">
-    <nav>
-      <ul>
-        <li><a href="/profile" class="logo">
-          <img src="{{ url_for('static', filename='home/testemunhos/1.png') }}" alt="">
-          <span class="nav-item">{{ session['username'] }}</span>
-        </a></li>
-        <li><a href="/dashboard">
-          <i class="fas fa-home"></i>
-          <span class="nav-item">Inicio</span>
-        </a></li>
-        <li><a href="">
-          <i class="fas fa-user"></i>
-          <span class="nav-item">Perfil</span>
-        </a></li>
-        <li><a href="">
-          <i class="fas fa-cog"></i>
-          <span class="nav-item">Preferências</span>
-        </a></li>
-        <li><a href="/logout" class="logout">
-          <i class="fas fa-sign-out-alt"></i>
-          <span class="nav-item">Sair</span>
-        </a></li>
-      </ul>
-    </nav>
+    {% include "core/dashboardNavbar.html" %}
 
     <section class="main">
       <div class="main-top">
