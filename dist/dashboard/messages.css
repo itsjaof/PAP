@@ -15,16 +15,13 @@ body{
   background: #dfe9f5;
 }
 
-.container{
+.container {
   display: flex;
+  height: 100vh;
 }
 
-nav{
-  position: relative;
-  top: 0;
-  bottom: 0;
-  height: auto;
-  left: 0;
+nav {
+  height: 100vh;
   background: #fff;
   width: 280px;
   overflow: hidden;
