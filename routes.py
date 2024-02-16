@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
+from datetime import datetime
 
 routes = Blueprint('routes', __name__, template_folder='templates')
 
@@ -91,9 +92,11 @@ def registo():
 def dashboard():
     if not session.get('username'):
         return redirect('/auth')
-    
+
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('/dashboard/dashboard.html', user=user)
+    current_time = datetime.now().hour
+
+    return render_template('/dashboard/dashboard.html', user=user, current_time=current_time)
 
 @routes.route('/logout')
 def logout():
