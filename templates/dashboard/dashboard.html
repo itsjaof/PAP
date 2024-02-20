@@ -21,11 +21,11 @@
     <section class="main">
       <div class="main-top">
         {% if 0 <= current_time < 12 %}
-          <h1>Bom dia, {{ session['username'] }}</h1>
+          <h1>Bom dia, {{ session['username'] }}!</h1>
         {% elif 12 <= current_time < 19 %}
-          <h1>Boa tarde, {{ session['username'] }}</h1>
+          <h1>Boa tarde, {{ session['username'] }}!</h1>
         {% else %}
-          <h1>Boa noite, {{ session['username'] }}</h1>
+          <h1>Boa noite, {{ session['username'] }}!</h1>
         {% endif %}
       </div>
       <section class="main-content">

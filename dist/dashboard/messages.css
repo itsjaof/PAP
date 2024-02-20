@@ -17,11 +17,12 @@ body{
 
 .container {
   display: flex;
-  height: 100vh;
+  height: 100%;
 }
 
 nav {
-  height: 100vh;
+  position: fixed;
+  height: 100%;
   background: #fff;
   width: 280px;
   overflow: hidden;
@@ -82,6 +83,7 @@ a:hover{
 
 /* Main Section */
 .main{
+  margin-left: 20%;
   position: relative;
   padding: 20px;
   width: 100%;

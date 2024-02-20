@@ -130,6 +130,13 @@ def agenda():
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     return render_template('dashboard/agenda.html', user=user)
 
+@routes.route('/dashboard/perfil')
+def profile():
+    check_session()
+
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/profile.html', user=user)
+
 @routes.route('/dashboard/users')
 def users():
     check_session()
