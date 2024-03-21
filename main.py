@@ -4,6 +4,7 @@ from flask import Flask # Implementação da biblioteca Flask para a inicializa�
 # routes = blueprint com todas as rotas do website
 # sess = Aplicação de sessões
 from routes import routes, db, sess, error # Import do ficheiro routes.py, que contém as rotas do website, e a sua parte lógica
+from dashboard_routes import dashboard_routes
 
 # Declaração da aplicação Flask com algumas configurações (Declaração da pasta static pois não é a padrão, __name__ para declarar onde está a aplicação flask (Neste caso, o mesmo ficheiro))
 app = Flask(__name__, template_folder='templates', static_folder='dist')
@@ -22,6 +23,7 @@ sess.init_app(app)
 
 # Registo das rotas do website
 app.register_blueprint(routes)
+app.register_blueprint(dashboard_routes)
 app.register_error_handler(Exception, error)
 
 # Inicialização do servidor com "debug" para obter mais informações para a resolução de problemas, host declarada para o website estar visível para toda a rede.
