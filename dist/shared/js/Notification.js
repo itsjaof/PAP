@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function sendNotification(type, text1, text2) {
 
-    console.log('[NOTIFICATION] Function called: ', type, text1, text2)
+    console.log('Function called: ', type, text1, text2)
 
     document.getElementById('text text-1').innerHTML = text1;
     document.getElementById('text text-2').innerHTML = text2;

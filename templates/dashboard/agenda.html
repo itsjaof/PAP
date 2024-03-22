@@ -20,15 +20,20 @@
       <section class="main-content">
           <div class="content">
                 <div class="box">
+                  <h3>Dummy!</h3>
                   <p><strong>Data:</strong> 24/01/2023</p>
                   <p><strong>Professor:</strong> Louis Minerals</p>
                   <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                   <p><strong>Tipo:</strong> Código</p>
 
-                  <button style="background-color: #966100;" onclick="window.location.href = 'mailto:Teste?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
-                </div>
-          </div>
+                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>          </div>
       </section>
+      
+      {% if user.type == 'STAFF' %}>
+        <button class="rounded-button" onclick="console.log('ADD BUTTON TRIGGERED')">
+          <i class="fas fa-plus"></i>
+        </button>
+      {% endif %}
     </section>
     </section>
   </div>

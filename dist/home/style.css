@@ -1,3 +1,12 @@
+/*
+* Declaração de algumas variáveis para a otimização do código.
+* --brand-color = Cor principal do website.
+*/
+
+:root {
+  --brand-color: #FA7C03;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +14,7 @@
 }
 
 ::selection {
-  background: #966100;
+  background: var(--brand-color);
 }
 
 html {
@@ -226,7 +235,7 @@ button:not(:disabled):active {
 .cartas .card {
   padding: 3.1em 1.25em;
   text-align: center;
-  background: linear-gradient(0deg, #966100 10px, transparent 10px);
+  background: linear-gradient(0deg, var(--brand-color) 10px, transparent 10px);
   background-repeat: no-repeat;
   background-position: 0 0.62em;
   box-shadow: 0 0 2.5em rgba(0, 0, 0, 0.15);
@@ -240,7 +249,7 @@ button:not(:disabled):active {
   height: 2em;
   width: 2em;
   margin: auto;
-  background-color: #966100;
+  background-color: var(--brand-color);
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -252,7 +261,7 @@ button:not(:disabled):active {
   content: "";
   height: 1.5em;
   width: 1.5em;
-  border: 0.12em solid #966100;
+  border: 0.12em solid var(--brand-color);
   border-radius: 50%;
   transition: 0.5s;
 }
@@ -363,7 +372,7 @@ button:not(:disabled):active {
 
 .contactos  .contact-content .left-side .details i{
   font-size: 30px;
-  color: #966100;
+  color: var(--brand-color);
   margin-bottom: 10px;
 }
 
@@ -386,7 +395,7 @@ button:not(:disabled):active {
 .contactos  .contact-content .right-side .topic-text{
   font-size: 23px;
   font-weight: 600;
-  color: #966100;
+  color: var(--brand-color);
 }
 
 .contactos .right-side .input-box{
@@ -428,13 +437,13 @@ button:not(:disabled):active {
   border: none;
   padding: 8px 16px;
   border-radius: 6px;
-  background: #966100;
+  background: var(--brand-color);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .contactos .button input[type="submit"]:hover{
-  background: #966100;
+  background: var(--brand-color);
 }
 
 .row h1 {
@@ -534,7 +543,7 @@ button:not(:disabled):active {
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: #966100;
+  background-color: var(--brand-color);
   border-radius: 25px 25px 0 25px;
 }
 .testemunhos .overlay::before,
@@ -545,7 +554,7 @@ button:not(:disabled):active {
   bottom: -40px;
   height: 40px;
   width: 40px;
-  background-color: #966100;
+  background-color: var(--brand-color);
 }
 .testemunhos .overlay::after{
   border-radius: 0 25px 0 0;
@@ -564,7 +573,7 @@ button:not(:disabled):active {
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
-  border: 4px solid #966100;
+  border: 4px solid var(--brand-color);
 }
 .testemunhos .name{
   font-size: 18px;
@@ -581,22 +590,22 @@ button:not(:disabled):active {
   font-size: 16px;
   color: #FFF;
   padding: 8px 16px;
-  background-color: #966100;
+  background-color: var(--brand-color);
   border-radius: 6px;
   margin: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 .testemunhos .button:hover{
-  background: #966100;
+  background: var(--brand-color);
 }
 
 .testemunhos .swiper-navBtn{
-  color: #966100;
+  color: var(--brand-color);
   transition: color 0.3s ease;
 }
 .testemunhos .swiper-navBtn:hover{
-  color: #966100;
+  color: var(--brand-color);
 }
 .testemunhos .swiper-navBtn::before,
 .testemunhos .swiper-navBtn::after{
@@ -609,11 +618,11 @@ button:not(:disabled):active {
   left: 0;
 }
 .testemunhos .swiper-pagination-bullet{
-  background-color: #966100;
+  background-color: var(--brand-color);
   opacity: 1;
 }
 .testemunhos .swiper-pagination-bullet-active{
-  background-color: #966100;
+  background-color: var(--brand-color);
 }
 
 @media screen and (max-width: 768px) {

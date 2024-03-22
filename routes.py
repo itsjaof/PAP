@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, request, session, redirect, abort, jsonify
+from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
 
 routes = Blueprint('routes', __name__, template_folder='templates')
 
-db = SQLAlchemy()
+db   = SQLAlchemy()
 sess = Session()
 
 class Auth(db.Model):
@@ -20,10 +20,6 @@ class Messages(db.Model):
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.String, nullable=False)
 
-def check_session():
-    if not session.get('username'):
-        raise abort(500, 'AUTH_COOKIE_NOT_FOUND')
-
 @routes.errorhandler(Exception) # Website error handler
 def error(error):
     return render_template('shared/error.html', error=error), 500
@@ -35,22 +31,10 @@ def index():
         db.session.add(new_message)
         db.session.commit()
     
-    for message in Messages.query.all():
-        print(f"ID: {message.id} | Name: {message.name} | Email: {message.email} | Message: {message.message}")
-    
     return render_template('index.html')
 
-@routes.route('/auth', methods=['GET', 'POST'])
+@routes.route('/auth', endpoint='auth')
 def auth():
-    """
-    if request.method == 'POST':
-        if request.form.get('username'):
-            if Auth.query.filter_by(username = request.form.get('username')).filter_by(password = request.form.get('password')):
-                session['username'] = request.form.get('username')
-                return redirect('/dashboard')
-            else:
-                session['errormsg'] = ["Credenciais Inválidas!", "Verifique os campos e tente novamente."]
-    """
     return render_template('auth.html')
 
 @routes.route('/handle_auth', methods=['POST'])
@@ -62,9 +46,9 @@ def handle_auth():
         session['username'] = request.form.get('username')
         return redirect('/dashboard')
     else:
-        error = "Verifique os campos e tente novamente.";    
-    # return redirect('/auth', error=error)
-    return jsonify({'error': error})
+        error = "Verifique os campos e tente novamente.";
+    return redirect(url_for('routes.auth', error=error))
+    # return jsonify({'error': error})
 
 @routes.route('/registo', methods=['GET', 'POST'])
 def registo():
@@ -88,16 +72,6 @@ def registo():
             print(f'\n[INFO] Utilizador {request.form.get("username")} adicionado à base de dados (Registo).\n')
     return render_template('registo.html')
 
-@routes.route('/dashboard')
-def dashboard():
-    if not session.get('username'):
-        return redirect('/auth')
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    current_time = datetime.now().hour
-
-    return render_template('/dashboard/dashboard.html', user=user, current_time=current_time)
-
 @routes.route('/logout')
 def logout():
     if session:
@@ -106,14 +80,6 @@ def logout():
 
     return redirect('/')
 
-@routes.route('/dashboard/messages')
-def messages():
-    check_session()
-    
-    messages = Messages.query.all()
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/messages.html', messages=messages, user=user)
-
 @routes.route('/clear_cookie')
 def clear_cookie():
     data = request.get_json()
@@ -121,30 +87,6 @@ def clear_cookie():
 
     session['errormsg'] = new_value
     return 'Error cookie new value {}'.format(session['errormsg'])
-
-
-@routes.route('/dashboard/agenda')
-def agenda():
-    check_session()
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/agenda.html', user=user)
-
-@routes.route('/dashboard/perfil')
-def profile():
-    check_session()
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/profile.html', user=user)
-
-@routes.route('/dashboard/users')
-def users():
-    check_session()
-
-    users = Auth.query.all()
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/utilizadores.html', users=users, user=user)
 
 """
 @routes.route('/', defaults={'page':'index'}, methods=['GET', 'POST'])
