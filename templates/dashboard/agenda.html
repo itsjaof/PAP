@@ -26,14 +26,64 @@
                   <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                   <p><strong>Tipo:</strong> Código</p>
 
-                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>          </div>
+                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
+                </div>
       </section>
       
-      {% if user.type == 'STAFF' %}>
-        <button class="rounded-button" onclick="console.log('ADD BUTTON TRIGGERED')">
+      {% if user.type == 'STAFF' %}
+        <button class="rounded-button" onclick="openForm()">
           <i class="fas fa-plus"></i>
         </button>
       {% endif %}
+
+      <div id="popupForm" class="popup-box">
+        <div class="popup-content">
+          <form action="#">
+            <h2>Novo Agendamento</h2><br>
+
+            <label for="student">Aluno:</label>
+            <select id="student" name="student">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </select>
+      
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date" min="today">
+      
+            <label for="type">Tipo:</label>
+            <select id="type" name="type">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </select><br><br>
+      
+            <button class="submit-button" type="submit">Submit</button>
+          </form>
+          <button id="close-form-button" class="close-button" onclick="closeForm()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <script>
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("date")[0].setAttribute('min', today);
+
+        
+        function openForm() {
+          document.querySelector('.popup-box').style.display = 'block'
+          document.querySelector('body').style.overflow = 'hidden'
+        }
+
+        function closeForm() {
+          document.querySelector('.popup-box').style.display = 'none'
+          document.querySelector('body').style.overflow = 'auto'
+        }
+
+        const popupForm = document.querySelector('.popup-box')
+        const closeButton = document.getElementById('close-form-button')
+      </script>
     </section>
     </section>
   </div>
