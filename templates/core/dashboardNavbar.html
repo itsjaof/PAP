@@ -1,36 +1,36 @@
 <nav>
-  <ul>
-    <li><a href="/dashboard/perfil" class="logo">
-      <img src="{{ url_for('static', filename='/users/default.png') }}" alt="">
-      <span class="nav-item">Perfil</span>
-    </a></li>
-    <li><a href="/dashboard">
-      <i class="fas fa-home"></i>
-      <span class="nav-item">Inicio</span>
-    </a></li>
-    <li><a href="/dashboard/agenda">
-      <i class="fas fa-solid fa-calendar-days"></i>
-      <span class="nav-item">Agenda</span>
-    </a></li>
-    {% if user.type == 'STAFF' or user.type == 'ADMIN' %}
-      <li><a href="/dashboard/messages">
-        <i class="fas fa-solid fa-envelope"></i>
-        <span class="nav-item">Mensagens</span>
+    <ul>
+      <li><a href="/dashboard/perfil" class="logo">
+        <img src="{{ url_for('static', filename='/users/user.png') }}" alt="">
+        <span class="nav-item">Perfil</span>
       </a></li>
-      <li><a href="/dashboard/messages">
-        <i class="fas fa-solid fa-book"></i>
-        <span class="nav-item">Marcar</span>
+      <li><a href="/dashboard">
+        <i class="fas fa-home"></i>
+        <span class="nav-item">Inicio</span>
       </a></li>
-    {% endif %}
-    {% if user.type == 'ADMIN' %}
-    <li><a href="/dashboard/users">
-      <i class="fas fa-solid fa-users"></i>
-      <span class="nav-item">Utilizadores</span>
-    </a></li>
-    {% endif %}
-    <li><a href="/logout" class="logout">
-      <i class="fas fa-sign-out-alt"></i>
-      <span class="nav-item">Sair</span>
-    </a></li>
-  </ul>
+      <li><a href="/dashboard/agenda">
+        <i class="fas fa-solid fa-calendar-days"></i>
+        <span class="nav-item">Agenda</span>
+      </a></li>
+      {% if user.type == 'STAFF' or user.type == 'ADMIN' %}
+        <li><a href="/dashboard/messages">
+          <i class="fas fa-solid fa-envelope"></i>
+          <span class="nav-item">Mensagens</span>
+        </a></li>
+        <li><a href="/dashboard/messages">
+          <i class="fas fa-solid fa-book"></i>
+          <span class="nav-item">Marcar</span>
+        </a></li>
+      {% endif %}
+      {% if user.type == 'ADMIN' %}
+      <li><a href="/dashboard/users">
+        <i class="fas fa-solid fa-users"></i>
+        <span class="nav-item">Utilizadores</span>
+      </a></li>
+      {% endif %}
+      <li><a href="/logout" class="logout">
+        <i class="fas fa-sign-out-alt"></i>
+        <span class="nav-item">Sair</span>
+      </a></li>
+    </ul>
 </nav>
