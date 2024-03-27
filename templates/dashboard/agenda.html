@@ -26,12 +26,12 @@
                   <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                   <p><strong>Tipo:</strong> Código</p>
 
-                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>          
+                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
                 </div>
       </section>
       
       {% if user.type == 'STAFF' %}
-        <button class="rounded-button" onclick="showModal()">
+        <button class="rounded-button" onclick="openForm()">
           <i class="fas fa-plus"></i>
         </button>
       {% endif %}
@@ -47,14 +47,33 @@
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
             </select>
-            <input type="submit" value="Submit">
+      
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date" min="today">
+      
+            <label for="type">Tipo:</label>
+            <select id="type" name="type">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+            </select><br><br>
+      
+            <button class="submit-button" type="submit">Submit</button>
           </form>
+          <button id="close-form-button" class="close-button" onclick="closeForm()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
       </div>
 
       <script>
-        function showModal() {
-          document.getElementById("modal").style.display = "block";
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("date")[0].setAttribute('min', today);
+
+        
+        function openForm() {
+          document.querySelector('.popup-box').style.display = 'block'
+          document.querySelector('body').style.overflow = 'hidden'
         }
 
         function closeForm() {
@@ -64,6 +83,24 @@
 
         const popupForm = document.querySelector('.popup-box')
         const closeButton = document.getElementById('close-form-button')
+
+        const form = document.querySelector('#agenda-form')
+
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault()
+          event.stopPropagation()
+
+          const formData = new FormData(form)
+          const url = form.action
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+          }).catch((error) => {
+            console.error("Can't send the form to the remote server: ", response)
+          })
+
+          console.log('')
+        })
       </script>
     </section>
     </section>
