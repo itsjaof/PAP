@@ -83,6 +83,7 @@ a:hover{
 
 /* Main Section */
 .main{
+  overflow: hidden;
   margin-left: 20%;
   position: relative;
   padding: 20px;

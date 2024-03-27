@@ -28,12 +28,27 @@ def messages():
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
-@dashboard_routes.route('/dashboard/agenda', methods=['GET', 'POST'])
+@dashboard_routes.route('/dashboard/agenda', methods=['GET'])
+def submit_agenda():
+    check_session()
+
+    students = Auth.query.filter_by(type = "USER")
+
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/agenda.html', user=user, students=students)
+
+@dashboard_routes.route('/submit-agenda', methods=['POST'])
 def agenda():
     check_session()
 
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/agenda.html', user=user)
+    aluno = request.form.get('student')
+    data = request.form.get('date')
+    tipo = request.form.get('type')
+    teacher = session['username']
+
+    print(f'\n\n\nDATA SENT TO THE SERVER!\nAluno: {aluno}\nData: {data}\nTipo: {tipo}\nProfessor: {teacher}' + '\n\n\n')
+
+    return 'Form sent sucessfully!'
 
 @dashboard_routes.route('/dashboard/perfil')
 def profile():
