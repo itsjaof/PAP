@@ -28,7 +28,7 @@ def messages():
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
-@dashboard_routes.route('/dashboard/agenda')
+@dashboard_routes.route('/dashboard/agenda', methods=['GET', 'POST'])
 def agenda():
     check_session()
 

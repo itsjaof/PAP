@@ -38,7 +38,7 @@
 
       <div id="popupForm" class="popup-box">
         <div class="popup-content">
-          <form action="#">
+          <form id="agenda-form" action="#">
             <h2>Novo Agendamento</h2><br>
 
             <label for="student">Aluno:</label>
@@ -83,6 +83,24 @@
 
         const popupForm = document.querySelector('.popup-box')
         const closeButton = document.getElementById('close-form-button')
+
+        const form = document.querySelector('#agenda-form')
+
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault()
+          event.stopPropagation()
+
+          const formData = new FormData(form)
+          const url = form.action
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+          }).catch((error) => {
+            console.error("Can't send the form to the remote server: ", response)
+          })
+
+          console.log('')
+        })
       </script>
     </section>
     </section>
