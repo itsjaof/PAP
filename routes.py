@@ -12,6 +12,8 @@ class Auth(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.Enum('USER', 'ADMIN', 'STAFF'), nullable=False)
 
 class Messages(db.Model):
@@ -39,16 +41,11 @@ def auth():
 
 @routes.route('/handle_auth', methods=['POST'])
 def handle_auth():
-
-    is_valid = Auth.query.filter_by(username=request.form.get('username'), password=request.form.get('password')).first()
-
-    if is_valid:
+    if Auth.query.filter_by(username=request.form.get('username'), password=request.form.get('password')).first():
         session['username'] = request.form.get('username')
         return redirect('/dashboard')
     else:
-        error = "Verifique os campos e tente novamente.";
-    return redirect(url_for('routes.auth', error=error))
-    # return jsonify({'error': error})
+        return abort(403)
 
 @routes.route('/registo', methods=['GET', 'POST'])
 def registo():

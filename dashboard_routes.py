@@ -72,3 +72,7 @@ def marcar():
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     return render_template('dashboard/marcar.html', user=user)
+
+@dashboard_routes.route('/search-message-email', methods=['POST'])
+def search_message_email():
+    ...
