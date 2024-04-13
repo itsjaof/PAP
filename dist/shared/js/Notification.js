@@ -1,14 +1,9 @@
-console.log("[INF] The file Notification.js has been sucessfully loaded!")
-
 const toast = document.querySelector(".toast")
 const closeIcon = document.querySelector(".close")
 const progress = document.querySelector(".progress")
 let timer1, timer2
 
 function sendNotification(type, text1, text2) {
-
-  console.log('Function called: ', type, text1, text2)
-
   document.getElementById('text text-1').innerHTML = text1;
   document.getElementById('text text-2').innerHTML = text2;
 
