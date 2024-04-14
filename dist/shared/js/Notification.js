@@ -42,17 +42,3 @@ function sendNotification(type, text1, text2) {
       clearTimeout(timer2);
   });
 }
-
-if (typeof regError != 'undefined') {
-  var reg = [regError[0], regError[1]];
-  console.log(reg)
-
-  sendNotification('error', reg[0], reg[1])
-}
-
-if (typeof log != 'undefined') {
-  var log = [logError[0], logError[1]];
-  console.log(log) 
-
-  sendNotification('error', log[0], log[1])
-}

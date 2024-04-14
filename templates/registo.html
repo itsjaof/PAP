@@ -13,7 +13,7 @@
     </header>
 	<div class="login-box">
 		<h2>Registo</h2>
-		<form action="/registo" method="post">
+		<form id="register-form" action="/handle_register" method="post">
 			<p><i class="fa-solid fa-circle-exclamation" style="color: red;"></i> O nome de utilizador não pode ser alterado após o registo!</p>
 			<br>
 
@@ -40,10 +40,39 @@
 
 	{% include "shared/notification.html" %}
 
-	{% if 'errormsg' in session %}
-		<script>
-			var regError = ["{{session['errormsg'][0]}}", "{{session['errormsg'][1]}}"]
-		</script>
-	{% endif %}
+	<script>
+		const form = document.querySelector('#register-form');
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+
+			const formData = new FormData(form);
+			const url = form.action
+
+			try {
+				const response = await fetch(url, {
+					method: 'POST',
+					body: formData
+				})
+
+				if (!response.ok) {
+					const message = await response.json();
+					throw new Error(message.error);
+				}
+
+				window.location.replace('/dashboard')
+
+			} catch(error) {
+				document.getElementById("username").value = '';
+				document.getElementById("name").value = '';
+				document.getElementById("email").value = '';
+		    	document.getElementById("password").value = '';
+		    	document.getElementById("repeat-password").value = '';
+
+				sendNotification("error", "Falha ao Autenticar!", error.message);
+			}
+		})
+	</script>
 </body>
 </html>

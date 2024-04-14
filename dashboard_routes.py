@@ -40,7 +40,7 @@ def submit_agenda():
 @dashboard_routes.route('/submit-agenda', methods=['POST'])
 def agenda():
     check_session()
-
+    
     aluno = request.form.get('student')
     data = request.form.get('date')
     tipo = request.form.get('type')

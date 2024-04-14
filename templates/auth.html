@@ -27,8 +27,8 @@
 	</div>
 
 	{% include "shared/notification.html" %}
-
-	<script>
+	
+	<script type="module">
 		const form = document.querySelector('#auth-form');
 
 		form.addEventListener('submit', async (event) => {
@@ -49,6 +49,7 @@
 		    }
 		
 		    window.location.replace("/dashboard");
+
 		  } catch (error) {
 		    document.getElementById("username").value = '';
 		    document.getElementById("password").value = '';

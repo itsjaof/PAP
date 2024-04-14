@@ -42,17 +42,17 @@
             <h2>Novo Agendamento</h2><br>
 
             <label for="student">Aluno:</label>
-            <select id="student" name="student">
+            <select id="student" name="student" required>
               {% for student in students %}
                 <option value="{{student.id}}">{{student.username}}</option>
               {% endfor %}
             </select>
       
             <label for="date">Data:</label>
-            <input type="date" id="date" name="date" min="today">
+            <input type="date" id="date" name="date" min="today" required>
       
             <label for="type">Tipo:</label>
-            <select id="type" name="type">
+            <select id="type" name="type" required>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
@@ -106,6 +106,10 @@
             sendNotification("sucess", "Sucesso!", "Agendamento criado com sucesso.")
             console.log("The form has been sucessfully sent to the remote server: ", response.status)
           }).catch((error) => {
+            document.getElementById("student").value = ''
+            document.getElementById("date").value = ''
+            document.getElementById("type").value = ''
+
             closeForm()
             sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
             throw error;

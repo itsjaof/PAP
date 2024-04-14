@@ -43,31 +43,34 @@ def auth():
 def handle_auth():
     if Auth.query.filter_by(username=request.form.get('username'), password=request.form.get('password')).first():
         session['username'] = request.form.get('username')
-        return redirect('/dashboard')
+        return jsonify({"sucess" : "Autenticado com sucesso!"}), 200
     else:
         return abort(403)
 
-@routes.route('/registo', methods=['GET', 'POST'])
+@routes.route('/registo')
 def registo():
-    if request.method == 'POST':
-        if request.form.get('username'):
-            if Auth.query.filter_by(email = request.form.get('email')):
-                session['errormsg'] = ["Este email já existe", "Este email já foi registado."]
-                return redirect('/registo')
-                
-            if Auth.query.filter_by(email = request.form.get('username')):
-                session['errormsg'] = ["Este nome de utilizador já existe", "Este nome de utilizador já foi registado."]
-                return redirect('/registo')
-                
-            if request.form.get('password') == request.form.get('repeat-password'):
-                session['errormsg'] = ["As senhas não são iguais.", "Verifique os campos e tente novamente."]
-                return redirect('/registo')
-
-            toCommit = Auth(username = request.form.get('username'), name = request.form.get('name'), password = request.form.get('password'), email = request.form.get('email'))
-            db.session.add(toCommit)
-            db.session.commit()
-            print(f'\n[INFO] Utilizador {request.form.get("username")} adicionado à base de dados (Registo).\n')
     return render_template('registo.html')
+
+@routes.route('/handle_register', methods=['POST'])
+def handle_register():
+    print('\n\n\nUtilizador: {}\nNome: {}\nEmail: {}\nPassword: {}\nRPassword: {}'.format(request.form.get('username'), request.form.get('name'), request.form.get('email'), request.form.get('password'), request.form.get('repeat-password')))
+
+    if Auth.query.filter_by(email = request.form.get('email')).first():
+        return jsonify({"error" : "Este email já foi registado."}), 500
+        
+    if Auth.query.filter_by(username = request.form.get('username')).first():
+        return jsonify({"error" : "Este nome de utilizador já foi registado."}), 500
+        
+    if not request.form.get('password') == request.form.get('repeat-password'):
+        return jsonify({"error" : "As palavras-passe devem ser iguais!"}), 500
+
+    toCommit = Auth(username = request.form.get('username'), name = request.form.get('name'), password = request.form.get('password'), email = request.form.get('email'), type = 'USER')
+    db.session.add(toCommit)
+    db.session.commit()
+
+    session['username'] = request.form.get('username')
+    
+    return jsonify({"sucess" : "Utilizador criado com sucesso!"}), 200
 
 @routes.route('/logout')
 def logout():
@@ -77,20 +80,3 @@ def logout():
 
     return redirect('/')
 
-@routes.route('/clear_cookie')
-def clear_cookie():
-    data = request.get_json()
-    new_value = data.get('new_value')
-
-    session['errormsg'] = new_value
-    return 'Error cookie new value {}'.format(session['errormsg'])
-
-"""
-@routes.route('/', defaults={'page':'index'}, methods=['GET', 'POST'])
-@routes.route('/<page>', methods=['GET', 'POST'])
-def show(page):
-    try:
-        return render_template(f'{page}.html')
-    except TemplateNotFound:
-        abort(404, "Não conseguimos localizar esta página. Código de erro: PAGE_NOT_FOUND")
-"""
