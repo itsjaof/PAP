@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, abort,
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
-from routes import db, sess, Auth, Messages
+from routes import db, sess, Auth, Messages, Agenda
 
 dashboard_routes = Blueprint('dashboard', __name__)
 
@@ -40,15 +40,24 @@ def submit_agenda():
 @dashboard_routes.route('/submit-agenda', methods=['POST'])
 def agenda():
     check_session()
-    
-    aluno = request.form.get('student')
-    data = request.form.get('date')
-    tipo = request.form.get('type')
-    teacher = session['username']
 
-    print(f'\n\n\nDATA SENT TO THE SERVER!\nAluno: {aluno}\nData: {data}\nTipo: {tipo}\nProfessor: {teacher}' + '\n\n\n')
+    teacher = db.one_or_404(db.select(Auth).filter_by(username = session['username'])).id
+    student = db.one_or_404(db.select(Auth).filter_by(username = request.form.get('student'))).id
 
-    return 'Form sent sucessfully!'
+    print(teacher)
+    print(student)
+
+    toCommit = Agenda(
+        teacher_id = teacher, 
+        student_id = student, 
+        date = request.form.get('date'), 
+        type = request.form.get('type')
+    )
+
+    db.session.add(toCommit)
+    db.session.commit()
+
+    return jsonify({"sucess" : "Agendamento criado com sucesso!"}), 200
 
 @dashboard_routes.route('/dashboard/perfil')
 def profile():

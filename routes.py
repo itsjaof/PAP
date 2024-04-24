@@ -22,6 +22,12 @@ class Messages(db.Model):
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.String, nullable=False)
 
+class Agenda(db.Model):
+    teacher_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    student_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    date = db.Column(db.Date, primary_key=True, nullable=False)
+    type = db.Column(db.Enum('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME'), nullable=False)
+
 @routes.errorhandler(Exception) # Website error handler
 def error(error):
     return render_template('shared/error.html', error=error), 500

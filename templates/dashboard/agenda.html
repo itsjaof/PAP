@@ -44,7 +44,7 @@
             <label for="student">Aluno:</label>
             <select id="student" name="student" required>
               {% for student in students %}
-                <option value="{{student.id}}">{{student.username}}</option>
+                <option value="{{student.username}}">{{student.username}}</option>
               {% endfor %}
             </select>
       
@@ -53,9 +53,10 @@
       
             <label for="type">Tipo:</label>
             <select id="type" name="type" required>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
+              <option value="CÓDIGO">Código</option>
+              <option value="TEÓRICA">Teórica</option>
+              <option value="SIMULADOR">Simulador</option>
+              <option value="EXAME">Exame</option>
             </select><br><br>
       
             <button class="submit-button" type="submit">Submit</button>
