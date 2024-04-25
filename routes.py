@@ -8,6 +8,12 @@ routes = Blueprint('routes', __name__, template_folder='templates')
 db   = SQLAlchemy()
 sess = Session()
 
+class Agenda(db.Model):
+    teacher_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
+    date = db.Column(db.Date, primary_key=True, nullable=False)
+    type = db.Column(db.Enum('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME'), nullable=False)
+
 class Auth(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
@@ -15,18 +21,14 @@ class Auth(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.Enum('USER', 'ADMIN', 'STAFF'), nullable=False)
+    agenda_teacher = db.Relationship('Agenda', backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
+    agenda_student = db.Relationship('Agenda', backref='student', lazy=True, foreign_keys=[Agenda.student_id])
 
 class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.String, nullable=False)
-
-class Agenda(db.Model):
-    teacher_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    student_id = db.Column(db.Integer, primary_key=True, nullable=False)
-    date = db.Column(db.Date, primary_key=True, nullable=False)
-    type = db.Column(db.Enum('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME'), nullable=False)
 
 @routes.errorhandler(Exception) # Website error handler
 def error(error):

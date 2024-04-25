@@ -19,15 +19,20 @@
       </div>
       <section class="main-content">
           <div class="content">
-                <div class="box">
-                  <h3>Dummy!</h3>
-                  <p><strong>Data:</strong> 24/01/2023</p>
-                  <p><strong>Professor:</strong> Louis Minerals</p>
-                  <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
-                  <p><strong>Tipo:</strong> Código</p>
-
-                  <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
-                </div>
+            {% if user_type == 'USER' %}
+              {% for content in agenda %}
+                {% if user_id == content.student_id %}
+                  <div class="box">
+                    <p><strong>Data:</strong> {{ content.date }}</p>
+                    <p><strong>Professor:</strong> {{ content.teacher_name }}</p>
+                    <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
+                    <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
+                    <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
       </section>
       
       {% if user.type == 'STAFF' %}

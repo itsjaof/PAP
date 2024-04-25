@@ -32,10 +32,19 @@ def messages():
 def submit_agenda():
     check_session()
 
-    students = Auth.query.filter_by(type = "USER")
+    students = Auth.query.filter_by(type="USER")
+    agenda = Agenda.query.all()
+    user_id = db.one_or_404(db.select(Auth).filter_by(username=session['username'])).id
+    user_type = Auth.query.filter_by(id = user_id).first().type
+
+    print(user_type)
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/agenda.html', user=user, students=students)
+    for content in agenda:
+        teacher_name = Auth.query.get(content.teacher_id).name
+        content.teacher_name = teacher_name
+
+    return render_template('dashboard/agenda.html', user=user, students=students, user_id=user_id, agenda=agenda, user_type=user_type)
 
 @dashboard_routes.route('/submit-agenda', methods=['POST'])
 def agenda():
