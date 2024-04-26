@@ -42,7 +42,11 @@ def submit_agenda():
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     for content in agenda:
         teacher_name = Auth.query.get(content.teacher_id).name
+        teacher_username = Auth.query.get(content.teacher_id).username
+        student_name = Auth.query.get(content.student_id).name
         content.teacher_name = teacher_name
+        content.teacher_username = teacher_username
+        content.student_name = student_name
 
     return render_template('dashboard/agenda.html', user=user, students=students, user_id=user_id, agenda=agenda, user_type=user_type)
 

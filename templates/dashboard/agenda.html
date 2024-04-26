@@ -32,6 +32,21 @@
                 {% endif %}
               {% endfor %}
             {% endif %}
+
+            {% if user_type == 'STAFF' %}
+              {% for content in agenda %}
+                {% if session['username'] == content.teacher_username %}
+                  <div class="box">
+                    <p><strong>Data:</strong> {{ content.date }}</p>
+                    <p><strong>Aluno:</strong> {{ content.student_name }}</p>
+                    <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
+                    <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
+                    <button style="background-color: #966100;">Editar</button>
+                    <button style="background-color: #966100;" onclick="alert('Esta operação não pode ser revertida. Deseja continuar?')">Eliminar</button>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
           </div>
       </section>
       
