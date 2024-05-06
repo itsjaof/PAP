@@ -27,7 +27,7 @@
                     <p><strong>Professor:</strong> {{ content.teacher_name }}</p>
                     <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                     <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
-                    <button style="background-color: #966100;" onclick="'mailto:teste@teste.com?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
+                    <button style="background-color: #966100;" onclick="'mailto:{{ content.teacher_email }}?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
                   </div>
                 {% endif %}
               {% endfor %}
@@ -41,7 +41,6 @@
                     <p><strong>Aluno:</strong> {{ content.student_name }}</p>
                     <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                     <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
-                    <button style="background-color: #966100;">Editar</button>
                     <button style="background-color: #966100;" onclick="alert('Esta operação não pode ser revertida. Deseja continuar?')">Eliminar</button>
                   </div>
                 {% endif %}

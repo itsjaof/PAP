@@ -26,6 +26,10 @@ def messages():
     
     messages = Messages.query.all()
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+
+    if user.type == 'USER':
+        return redirect('/dashboard')
+
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
 @dashboard_routes.route('/dashboard/agenda', methods=['GET'])
@@ -43,9 +47,12 @@ def submit_agenda():
     for content in agenda:
         teacher_name = Auth.query.get(content.teacher_id).name
         teacher_username = Auth.query.get(content.teacher_id).username
+        teacher_email= Auth.query.get(content.teacher_id).email
         student_name = Auth.query.get(content.student_id).name
+        
         content.teacher_name = teacher_name
         content.teacher_username = teacher_username
+        content.teacher_email = teacher_email
         content.student_name = student_name
 
     return render_template('dashboard/agenda.html', user=user, students=students, user_id=user_id, agenda=agenda, user_type=user_type)
