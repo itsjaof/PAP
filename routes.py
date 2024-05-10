@@ -14,6 +14,10 @@ class Agenda(db.Model):
     date = db.Column(db.Date, primary_key=True, nullable=False)
     type = db.Column(db.Enum('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME'), nullable=False)
 
+class Testemunhos(db.Model):
+    userid = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
+    testemunho = db.Column(db.String(250), nullable=False)
+
 class Auth(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
@@ -21,8 +25,10 @@ class Auth(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     type = db.Column(db.Enum('USER', 'ADMIN', 'STAFF'), nullable=False)
+
     agenda_teacher = db.Relationship('Agenda', backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
     agenda_student = db.Relationship('Agenda', backref='student', lazy=True, foreign_keys=[Agenda.student_id])
+    testemunhos_user = db.Relationship('Testemunhos', backref='user', lazy=True, foreign_keys=[Testemunhos.userid])
 
 class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -41,7 +47,16 @@ def index():
         db.session.add(new_message)
         db.session.commit()
     
-    return render_template('index.html')
+    testemunhos = Testemunhos.query.all()
+
+    print("\n\n\n", testemunhos)
+
+    for content in testemunhos:
+        name = Auth.query.get(content.userid).name
+
+        content.name = name
+    
+    return render_template('index.html', testemunhos=testemunhos)
 
 @routes.route('/auth', endpoint='auth')
 def auth():

@@ -41,8 +41,6 @@ def submit_agenda():
     user_id = db.one_or_404(db.select(Auth).filter_by(username=session['username'])).id
     user_type = Auth.query.filter_by(id = user_id).first().type
 
-    print(user_type)
-
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     for content in agenda:
         teacher_name = Auth.query.get(content.teacher_id).name
