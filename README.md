@@ -46,7 +46,7 @@ Para a base de dados, devemos ter um servidor MySQL a correr no dispositivo, par
 
 👉 Caso esteja na plataforma Linux:
 ```bash
-  .venv/bin/activate
+  venv/bin/activate
 ```
 
 4. Configurar a base de dados
