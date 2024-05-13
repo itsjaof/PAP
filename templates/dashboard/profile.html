@@ -19,7 +19,7 @@
       <section class="main-content">
         <div class="content">
           <div class="box">
-            <form action="" method="post">
+            <form action="/update-profile-picture" method="post" id="profile-picture">
               <h3 style="color: #966100;">Foto de perfil</h3><br />
               <i><img src="{{ url_for('static', filename='users/default.png') }}" alt="" width="100" height="100"></i>
               <label for="profile-picture"><strong>Clique para enviar uma foto</strong></label><br />
@@ -37,6 +37,33 @@
           </div>
       </section>
     </section>
+
+    {% include "shared/notification.html" %}
+
+    <script>
+      document.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        
+        if (event.target.id == 'profile-picture') {
+          const formData = new FormData(event.target)
+          const url = event.target.action
+          const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+          }).then(response => {
+            if (!(response.ok)) {
+              throw new Error(`HTTP ${response.status} ${response.statusText}`)
+            }
+
+            sendNotification('sucess', 'Sucesso!', 'Foto de perfil atualizada com sucesso!')
+          }).catch((error) => {
+            sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+            throw error;
+          })
+        }
+      })
+    </script>
   </div>
 </body>
 </html>

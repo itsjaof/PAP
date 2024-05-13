@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for
+from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
 from routes import db, sess, Auth, Messages, Agenda
+import os
 
 dashboard_routes = Blueprint('dashboard', __name__)
 
@@ -83,6 +84,19 @@ def profile():
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     return render_template('dashboard/profile.html', user=user)
+
+@dashboard_routes.route('/update-profile-picture', methods=['POST'])
+def update_profile_picture():
+    check_session()
+
+    if 'profile-picture' not in request.files:
+        return jsonify({'error': 'O ficheiro enviado não é válido.'}), 500
+    
+    file = request.files['profile-picture']
+
+    file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], session['username'] + '.png'))
+
+    return jsonify({"sucesso": "foto de perfil atualizada com sucesso."}), 200
 
 @dashboard_routes.route('/dashboard/users')
 def users():

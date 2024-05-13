@@ -17,6 +17,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["SESSION_TYPE"] = 'sqlalchemy'
 app.config["SESSION_SQLALCHEMY"] = db
 
+app.config["UPLOAD_FOLDER"] = './dist/uploads'
+
 # Inicialização dos componentes necessários
 db.init_app(app)
 sess.init_app(app)
@@ -31,4 +33,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
-    app.run(debug=True, host='0.0.0.0', port=25565)
+    app.run(debug=True, host='0.0.0.0', port=3000)
