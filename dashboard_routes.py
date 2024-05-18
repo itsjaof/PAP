@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, current_app
+from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, current_app, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
@@ -11,10 +11,22 @@ def check_session():
     if not session.get('username'):
         raise abort(500, 'AUTH_COOKIE_NOT_FOUND')
 
+@dashboard_routes.before_request
+def get_user_picture():
+    query = db.one_or_404(db.select(Auth).filter_by(username=session.get('username')))
+
+    g.user_picture = query.picture
+
+@dashboard_routes.context_processor
+def inject_user_picture():
+    return dict(user_picture=g.get('user_picture', None))
+
 @dashboard_routes.route('/dashboard')
 def dashboard():
     if not session.get('username'):
         return redirect('/auth')
+    
+    user_picture = get_user_picture()
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     current_time = datetime.now().hour
@@ -93,8 +105,11 @@ def update_profile_picture():
         return jsonify({'error': 'O ficheiro enviado não é válido.'}), 500
     
     file = request.files['profile-picture']
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
 
     file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], session['username'] + '.png'))
+    user.picture = 1
+    db.session.commit()
 
     return jsonify({"sucesso": "foto de perfil atualizada com sucesso."}), 200
 

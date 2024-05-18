@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for
+from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
@@ -24,6 +24,7 @@ class Auth(db.Model):
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
+    picture = db.Column(db.Integer)
     type = db.Column(db.Enum('USER', 'ADMIN', 'STAFF'), nullable=False)
 
     agenda_teacher = db.Relationship('Agenda', backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
@@ -35,6 +36,16 @@ class Messages(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.String, nullable=False)
+
+@routes.before_request
+def get_user_picture():
+    query = db.one_or_404(db.select(Auth).filter_by(username=session.get('username')))
+
+    g.user_picture = query.picture
+
+@routes.context_processor
+def inject_user_picture():
+    return dict(user_picture=g.get('user_picture', None))
 
 @routes.errorhandler(Exception) # Website error handler
 def error(error):
@@ -49,7 +60,7 @@ def index():
     
     testemunhos = Testemunhos.query.all()
 
-    print("\n\n\n", testemunhos)
+    get_user_picture()
 
     for content in testemunhos:
         name = Auth.query.get(content.userid).name

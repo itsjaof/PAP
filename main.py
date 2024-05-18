@@ -1,4 +1,5 @@
 from flask import Flask # Implementação da biblioteca Flask para a inicialização da aplicação
+from waitress import serve
 
 # db = Aplicação da base de dados SQLAlchemy
 # routes = blueprint com todas as rotas do website
@@ -10,7 +11,7 @@ from dashboard_routes import dashboard_routes
 app = Flask(__name__, template_folder='templates', static_folder='dist')
 
 # Configuração da conexão à base de dados (flask_sqlalchemy)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:Joao_Pedro2006@localhost:3307/pap'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:Joao_Pedro2006@192.168.1.119:3307/pap'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 # Configuração das sessões do site (flask_session)
@@ -33,4 +34,5 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
 
+    # serve(app, host='0.0.0.0', port=3000)
     app.run(debug=True, host='0.0.0.0', port=3000)
