@@ -35,9 +35,23 @@
         <li><a href="#cartas">Cartas</a></li>
         <li><a href="#testemunhos">Testemunhos</a></li>
         <li><a href="#contactos">Contactos</a></li>
-        <li><a href="/auth" target="_blank">Entrar</a></li>
+        {% if session['username'] %}
+          <li>
+            <a href="/auth" target="_blank">
+              Entrar
+              {% if user_picture == 1 %}
+                <img class="profile-pic" src="{{ url_for('static', filename='/uploads/' + session['username'] + '.png') }}" alt="Profile Picture">
+              {% else %}
+                <img class="profile-pic" src="{{ url_for('static', filename='/users/default.png') }}" alt="Default Profile Picture">
+              {% endif %}
+            </a>
+          </li>
+        {% else %}
+          <li><a href="/auth" target="_blank">Entrar</a></li>
+        {% endif %}
     </ul>
   </header>
+  
   <section class="banner">
       <div class="content">
           <h1>TIRA JÁ A TUA CARTA DE CONDUÇÃO!</h1>

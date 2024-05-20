@@ -95,8 +95,18 @@ header ul li a {
   text-decoration: none;
   color: #fff;
   letter-spacing: 2px;
-  font-weight: 500px;
+  font-weight: 500;
   transition: 0.6s;
+  display: flex;
+  align-items: center; /* Aligns text and image in the center vertically */
+}
+
+header ul li a img.profile-pic {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  margin-left: 10px; /* Adjust the margin to space between text and image */
 }
 
 header.sticky {
@@ -107,6 +117,7 @@ header.sticky {
 header.sticky ul li a {
   color: black;
 }
+
 
 
 /* 

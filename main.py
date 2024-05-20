@@ -1,5 +1,6 @@
 from flask import Flask # Implementação da biblioteca Flask para a inicialização da aplicação
 from waitress import serve
+from datetime import timedelta
 
 # db = Aplicação da base de dados SQLAlchemy
 # routes = blueprint com todas as rotas do website
@@ -15,8 +16,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:Joao_Pedro2
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 # Configuração das sessões do site (flask_session)
+app.config['SECRET_KEY'] = 'N52~U6O,,Fo^/rSuJby2gxscBFyxR$'
 app.config["SESSION_TYPE"] = 'sqlalchemy'
 app.config["SESSION_SQLALCHEMY"] = db
+app.config['SESSION_PERMANENT'] = True
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 
 app.config["UPLOAD_FOLDER"] = './dist/uploads'
 

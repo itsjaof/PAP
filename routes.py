@@ -39,9 +39,15 @@ class Messages(db.Model):
 
 @routes.before_request
 def get_user_picture():
-    query = db.one_or_404(db.select(Auth).filter_by(username=session.get('username')))
-
-    g.user_picture = query.picture
+    if session:
+        query = db.session.execute(
+            db.select(Auth).filter_by(username=session.get('username'))
+        ).scalar_one_or_none()
+        
+        if query:
+            g.user_picture = query.picture
+    else:
+        g.user_picture = None
 
 @routes.context_processor
 def inject_user_picture():
@@ -60,8 +66,6 @@ def index():
     
     testemunhos = Testemunhos.query.all()
 
-    get_user_picture()
-
     for content in testemunhos:
         name = Auth.query.get(content.userid).name
 
@@ -78,8 +82,18 @@ def handle_auth():
     if Auth.query.filter_by(username=request.form.get('username'), password=request.form.get('password')).first():
         session['username'] = request.form.get('username')
         return jsonify({"sucess" : "Autenticado com sucesso!"}), 200
-    else:
-        return abort(403)
+        
+    return abort(403)
+
+@routes.route('/logout')
+def logout():
+    if session:
+        session.pop('username', None)
+        session.clear()
+
+    return redirect('/')
+
+"""
 
 @routes.route('/registo')
 def registo():
@@ -106,11 +120,5 @@ def handle_register():
     
     return jsonify({"sucess" : "Utilizador criado com sucesso!"}), 200
 
-@routes.route('/logout')
-def logout():
-    if session:
-        session.pop('username', None)
-        session.clear()
-
-    return redirect('/')
+"""
 

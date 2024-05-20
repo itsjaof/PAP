@@ -26,8 +26,6 @@ def dashboard():
     if not session.get('username'):
         return redirect('/auth')
     
-    user_picture = get_user_picture()
-
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     current_time = datetime.now().hour
 
