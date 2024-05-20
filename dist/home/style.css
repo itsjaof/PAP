@@ -333,7 +333,7 @@ button:not(:disabled):active {
 }
 
 .contactos {
-  min-height: 100vh;
+  margin-bottom: 10%;
   width: 100%;
   background: #fff;
   display: flex;

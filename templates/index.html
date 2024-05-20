@@ -37,8 +37,8 @@
         <li><a href="#contactos">Contactos</a></li>
         {% if session['username'] %}
           <li>
-            <a href="/auth" target="_blank">
-              Entrar
+            <a href="/dashboard" target="_blank">
+              Painel de Controlo
               {% if user_picture == 1 %}
                 <img class="profile-pic" src="{{ url_for('static', filename='/uploads/' + session['username'] + '.png') }}" alt="Profile Picture">
               {% else %}

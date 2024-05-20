@@ -13,9 +13,15 @@ def check_session():
 
 @dashboard_routes.before_request
 def get_user_picture():
-    query = db.one_or_404(db.select(Auth).filter_by(username=session.get('username')))
-
-    g.user_picture = query.picture
+    if session:
+        query = db.session.execute(
+            db.select(Auth).filter_by(username=session.get('username'))
+        ).scalar_one_or_none()
+        
+        if query:
+            g.user_picture = query.picture
+    else:
+        g.user_picture = None
 
 @dashboard_routes.context_processor
 def inject_user_picture():

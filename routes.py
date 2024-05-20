@@ -25,7 +25,7 @@ class Auth(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     picture = db.Column(db.Integer)
-    type = db.Column(db.Enum('USER', 'ADMIN', 'STAFF'), nullable=False)
+    type = db.Column(db.Enum('USER', 'INSTRUTOR', 'ADMIN', 'STAFF'), nullable=False)
 
     agenda_teacher = db.Relationship('Agenda', backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
     agenda_student = db.Relationship('Agenda', backref='student', lazy=True, foreign_keys=[Agenda.student_id])
