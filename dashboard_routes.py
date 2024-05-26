@@ -11,6 +11,12 @@ def check_session():
     if not session.get('username'):
         raise abort(500, 'AUTH_COOKIE_NOT_FOUND')
 
+def check_session_type(TYPE):
+    print('\n\n' + g.user_type + '\n\n')
+
+    if not g.user_type == TYPE:
+        raise abort(403)
+
 @dashboard_routes.before_request
 def get_user_picture():
     if session:
@@ -19,8 +25,10 @@ def get_user_picture():
         ).scalar_one_or_none()
         
         if query:
+            g.user_type = query.type
             g.user_picture = query.picture
     else:
+        g.user_type = None
         g.user_picture = None
 
 @dashboard_routes.context_processor
@@ -136,3 +144,13 @@ def marcar():
 @dashboard_routes.route('/search-message-email', methods=['POST'])
 def search_message_email():
     ...
+
+@dashboard_routes.route('/remove/<int:user_id>', methods=['POST'])
+def remove(user_id):
+    check_session_type('ADMIN')
+
+    user = db.one_or_404(db.select(Auth).filter_by(id=user_id))
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({"sucess": "Utilizador removido com sucesso"}), 200

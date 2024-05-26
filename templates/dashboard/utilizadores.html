@@ -28,11 +28,40 @@
                     <p><strong>Nível de Permissões:</strong> {{user.type}}</p>
                   
                     <button style="background-color: #966100;">Editar</button>
-                    <button style="background-color: red;">Remover</button>
+                    <form class="remove-user" id="{{ user_id }}" action="/remove/{{ user.id }}" method="post">
+                      <button type="submit" style="background-color: red;">Remover</button>
+                    </form>
                   </div>
               </div>
             {% endif %}
           {% endfor %}
+
+          {% include "shared/notification.html" %}
+
+          <script>
+            const form = document.querySelector(".remove-user")
+
+            form.addEventListener('submit', async (event) => {
+              event.preventDefault()
+              event.stopPropagation()
+
+              const formData = new FormData(form)
+              const url = form.action
+              const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+              }).then(response => {
+                if(!response.ok) {
+                  throw new Error(`HTTP ${response.status} ${response.statusText}`)
+                }
+
+                sendNotification("sucess", "Sucesso", "Utilizador removido.")
+              }).catch((error) => {
+                sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+                throw error;
+              })
+            })
+          </script>
       </div>
       </section>
     </section>
