@@ -13,6 +13,7 @@
 
 body{
   background: #dfe9f5;
+  overflow-x: hidden;
 }
 
 .container {

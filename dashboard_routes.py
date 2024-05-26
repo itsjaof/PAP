@@ -127,7 +127,7 @@ def update_profile_picture():
 
 @dashboard_routes.route('/dashboard/users')
 def users():
-    check_session()
+    check_session_type('ADMIN')
 
     users = Auth.query.all()
 

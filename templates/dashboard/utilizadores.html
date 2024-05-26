@@ -24,11 +24,17 @@
                   <div class="box">
                     <p><strong>ID:</strong> {{user.id}}</p>
                     <p><strong>Utilizador:</strong> {{user.username}}</p>
-                    <i class="fa-solid fa-user"></i>
+                    {% if user.picture == 1 %}
+                      <i><img src="{{ url_for('static', filename='uploads/' + user.username + '.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
+                    {% else %}
+                      <i><img src="{{ url_for('static', filename='users/default.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
+                    {% endif %}
+                    <p><strong>Nome:</strong> {{user.name}}</p>
+                    <p><strong>Email:</strong> {{user.email}}</p>
                     <p><strong>Nível de Permissões:</strong> {{user.type}}</p>
                   
-                    <button style="background-color: #966100;">Editar</button>
                     <form class="remove-user" id="{{ user_id }}" action="/remove/{{ user.id }}" method="post">
+                      <button style="background-color: #966100;">Editar</button>
                       <button type="submit" style="background-color: red;">Remover</button>
                     </form>
                   </div>

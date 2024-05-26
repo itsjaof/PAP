@@ -22,12 +22,12 @@
             <form action="/update-profile-picture" method="post" id="profile-picture">
               <h3 style="color: #966100;">Foto de perfil</h3><br />
               {% if user_picture == 1 %}
-                <i><img src="{{ url_for('static', filename='/uploads/' + session['username'] + '.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
+                <i><img id="picture-preview" src="{{ url_for('static', filename='/uploads/' + session['username'] + '.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
               {% else %}
-                <i><img src="{{ url_for('static', filename='users/default.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
+                <i><img id="picture-preview" src="{{ url_for('static', filename='users/default.png') }}" alt="" width="100" height="100" style="border-radius: 50%;"></i>
               {% endif %}
               <label for="profile-picture"><strong>Clique para enviar uma foto</strong></label><br />
-              <input type="file" accept="image/png, image/jpeg" name="profile-picture" id="profile-picture"><br />
+              <input type="file" accept="image/png, image/jpeg" name="profile-picture" id="profile-picture" required><br />
               <button style="background-color: #966100">Guardar Alterações</button>
             </form>
           </div>
@@ -52,7 +52,6 @@
               throw new Error(`HTTP ${response.status} ${response.statusText}`)
             }
 
-            sendNotification('sucess', 'Sucesso!', 'Foto de perfil atualizada com sucesso!')
             location.reload()
           }).catch((error) => {
             sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
