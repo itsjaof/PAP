@@ -42,10 +42,58 @@
             {% endif %}
           {% endfor %}
 
+          <button class="rounded-button" onclick="openForm()">
+            <i class="fas fa-plus"></i>
+          </button>
+
+          <div id="popupForm" class="popup-box">
+            <div class="popup-content">
+              <form class="add-form" action="/add-user" method="post">
+                <h2>Novo Utilizador</h2><br>
+    
+                <label for="student">Utilizador:</label>
+                <input type="text" name="username" id="username">
+
+                <label for="student">Nome:</label>
+                <input type="text" name="name" id="name">
+
+                <label for="student">Email:</label>
+                <input type="email" name="email" id="email">
+
+                <label for="student">Palavra-Passe:</label>
+                <input type="password" name="password" id="password">
+          
+                <label for="type">Tipo:</label>
+                <select id="type" name="type" required>
+                  <option value="USER">Aluno</option>
+                  <option value="INSTRUTOR">Instrutor</option>
+                  <option value="STAFF">Colaborador</option>
+                  <option value="ADMIN">Administrador</option>
+                </select><br><br>
+          
+                <button class="submit-button" type="submit">Criar</button>
+              </form>
+              <button id="close-form-button" class="close-button" onclick="closeForm()">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+
           {% include "shared/notification.html" %}
 
           <script>
             const form = document.querySelector(".remove-user")
+            const addForm = document.querySelector(".add-form")
+
+            function openForm() {
+              document.querySelector('.popup-box').style.display = 'block'
+              document.querySelector('body').style.overflow = 'hidden'
+            }
+          
+            function closeForm() {
+              document.querySelector('.popup-box').style.display = 'none'
+              document.querySelector('body').style.overflow = 'auto'
+            }
 
             form.addEventListener('submit', async (event) => {
               event.preventDefault()
@@ -67,6 +115,36 @@
                 throw error;
               })
             })
+
+          addForm.addEventListener('submit', async (event) => {
+            event.preventDefault()
+            event.stopPropagation()
+
+            const formData = new FormData(addForm)
+            const url = addForm.action
+            const response = await fetch(url, {
+              method: 'POST',
+              body: formData
+            }).then(response => {
+              if(!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`)
+              }
+
+              closeForm()
+              sendNotification("sucess", "Sucesso!", "Agendamento criado com sucesso.")
+              console.log("The form has been sucessfully sent to the remote server: ", response.status)
+            }).catch((error) => {
+              document.getElementById("username").value = ''
+              document.getElementById("name").value = ''
+              document.getElementById("email").value = ''
+              document.getElementById("password").value = ''
+              document.getElementById("type").value = ''
+
+              closeForm()
+              sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+              throw error;
+            })
+          })
           </script>
       </div>
       </section>

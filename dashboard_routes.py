@@ -102,6 +102,24 @@ def agenda():
 
     return jsonify({"sucess" : "Agendamento criado com sucesso!"}), 200
 
+@dashboard_routes.route('/add-user', methods=['POST'])
+def adduser():
+    check_session_type('ADMIN')
+    
+    toCommit = Auth(
+        username = request.form.get('username'),
+        name = request.form.get('name'),
+        email = request.form.get('email'),
+        password = request.form.get('password'),
+        type = request.form.get('type'),
+        picture = 0
+    )
+
+    db.session.add(toCommit)
+    db.session.commit()
+
+    return jsonify({"sucess" : "Utilizador criado com sucesso!"}), 200
+
 @dashboard_routes.route('/dashboard/perfil')
 def profile():
     check_session()
