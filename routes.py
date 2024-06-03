@@ -1,13 +1,17 @@
+# Implementação das bibliotecas necessárias assim como os seus módulos
 from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
 
+# Configuração para que este ficheiro possa criar rotas para o site
 routes = Blueprint('routes', __name__, template_folder='templates')
 
+# Inicialização das bibliotecas necessárias
 db   = SQLAlchemy()
 sess = Session()
 
+# Declaração das tabelas, para que possam ser usadas
 class Agenda(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)

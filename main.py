@@ -1,6 +1,4 @@
 from flask import Flask # Implementação da biblioteca Flask para a inicialização da aplicação
-from waitress import serve
-from datetime import timedelta
 import os
 
 # db = Aplicação da base de dados SQLAlchemy
@@ -13,7 +11,11 @@ from dashboard_routes import dashboard_routes
 app = Flask(__name__, template_folder='templates', static_folder='dist')
 
 # Configuração da conexão à base de dados (flask_sqlalchemy)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://root:Joao_Pedro2006@192.168.1.119:3307/pap'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://{}:{}@localhost:3307/pap'.format(
+    os.environ.get('MYSQL_USERNAME'), 
+    os.environ.get('MYSQL_PASSWORD')
+)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 # Configuração das sessões do site (flask_session)
