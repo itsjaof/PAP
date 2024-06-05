@@ -16,48 +16,56 @@ O PIP é necessário para podermos instalar as dependências deste projeto, que 
 
 3. MySQL
 Para a base de dados, devemos ter um servidor MySQL a correr no dispositivo, para isso podemos instalar no site: https://dev.mysql.com/downloads/mysql/
+
 ## 🤔 Como correr localmente
 
 1. Para correr o projeto, primeiramente devemos descarrega-lo.
 
 ```bash
-  git clone https://github.com/itsjaof/PAP
+git clone https://github.com/itsjaof/PAP
 ```
 
 2. Ir até ao diretório
 
 ```bash
-  cd PAP
+cd PAP
 ```
 
 3. Criar ambiente virtual e instalar as dependências.
 
 ```bash
-  python -m venv venv
+python -m venv venv
 ```
 
 👉 Caso esteja na plataforma Windows:
 
 ```bash
-  venv/scripts/activate
+venv/scripts/activate
 ```
 
 ⚠️ Este comando deve ser utilizado no Powershell  
 
 👉 Caso esteja na plataforma Linux:
 ```bash
-  venv/bin/activate
+source venv/bin/activate
+```
+4. Instalar bibliotecas
+```bash
+pip install -r requirements.txt
 ```
 
-4. Configurar a base de dados
+5. Configurar a base de dados
 
 👉 Primeiramente devemos ir até ao ficheiro ```main.py (linha 13)``` e alterar as credenciais da base de dados.
 
 👉 Em seguida, importar a base de dados, utilizando o ficheiro ```.sql``` fornecido neste repositório.
+```bash
+mysql -u root -p NOME_DA_BASE_DE_DADOS < pap.sql 
+```
 
 5. Por fim, correr o projeto com o comando:
 
 ```bash
-  python main.py
+python main.py
 ```
 ⚠️ Certifique-se de que está com o ambiente virtual ativo quando correr o projeto! (Passo 3)
