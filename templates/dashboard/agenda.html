@@ -24,7 +24,7 @@
                 {% if user_id == content.student_id %}
                   <div class="box">
                     <p><strong>Data:</strong> {{ content.date }}</p>
-                    <p><strong>Professor:</strong> {{ content.teacher_name }}</p>
+                    <p><strong>Instrutor:</strong> {{ content.teacher_name }}</p>
                     <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                     <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
                     <button style="background-color: #966100;" onclick="'mailto:{{ content.teacher_email }}?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
