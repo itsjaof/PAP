@@ -97,6 +97,8 @@ def logout():
 
     return redirect('/')
 
+
+
 """
 
 @routes.route('/registo')
