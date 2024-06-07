@@ -172,3 +172,10 @@ def remove(user_id):
     db.session.commit()
 
     return jsonify({"sucess": "Utilizador removido com sucesso"}), 200
+
+@dashboard_routes.route('/temp')
+def temp():
+    check_session()
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+
+    return render_template('temp.html', user=user)

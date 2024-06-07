@@ -1,4 +1,4 @@
-<!DOCT html>
+<!DOCTYPE html>
 <html="pt-PT">
 <head>
   <meta charsetUTF-8" />
@@ -14,28 +14,17 @@
 
     <section class="main">
       <div class="main-top">
-        <h1 style="color: #966100;">Marcar</h1>
+        <h1 style="color: #966100;">TITULO DA PÁGINA</h1>
       </div>
       <section class="main-content">
         <div class="content">
           <div class="box">
-            <form action="" method="post">
-              <label for="profile-picture"><strong>Para quando esta marcação será feita?</strong></label><br />
-              <input type="date" id="data-marcacao"><br />
-
-              <button style="background-color: #966100">Guardar Alterações</button>
-            </form>
+            <div class="box">
+                <h3 style="margin-bottom: 200px; margin-top: 200px; text-align: center;">CONTEÚDO AQUI</h3>
+              </div>
           </div>
       </section>
     </section>
   </div>
-
-  <script>
-    const today = new Date();
-    const tomorrow = new Date(today.getTime() + (24*60*60*1000));
-      
-    const myDate = document.getElementById('data-marcacao');
-    myDate.min = tomorrow.toISOString().split('T')[0];
-  </script>
 </body>
 </html>
