@@ -31,11 +31,64 @@
       <section class="main-content">
         <div class="content-box">
           <div class="content">
-            <p>Bem-vindo de volta <strong>{{ session['username'] }}</strong></p>
+            <button type="button" role="button" onclick="openForm()">Dê o seu testemunho!</button>
           </div>
         </div>
       </section>
     </section>
+
+    <div id="popupForm" class="popup-box">
+      <div class="popup-content">
+        <form class="add-form" action="/add-user" method="post">
+          <h2>Testemunho</h2><br>
+
+          <label for="student">Testemunho:</label>
+          <input type="textarea" name="username" id="username">
+    
+          <button class="submit-button" type="submit">Submeter</button>
+        </form>
+        <button id="close-form-button" class="close-button" onclick="closeForm()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    {% include "shared/notification.html" %}
+
+    <script>
+      const form = document.querySelector(".remove-user")
+
+      function openForm() {
+        document.querySelector('.popup-box').style.display = 'block'
+        document.querySelector('body').style.overflow = 'hidden'
+      }
+    
+      function closeForm() {
+        document.querySelector('.popup-box').style.display = 'none'
+        document.querySelector('body').style.overflow = 'auto'
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        const formData = new FormData(form)
+        const url = form.action
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData
+        }).then(response => {
+          if(!response.ok) {
+            throw new Error(`HTTP ${response.status} ${response.statusText}`)
+          }
+
+          sendNotification("sucess", "Sucesso", "Utilizador removido.")
+        }).catch((error) => {
+          sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+          throw error;
+        })
+      })
+    </script>
   </div>
 </body>
 </html>
