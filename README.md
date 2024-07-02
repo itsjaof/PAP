@@ -6,7 +6,7 @@ Toda a parte informativa do site foi baseada no site original: https://alhandrar
 
 ## 🚀 Instalação
 
-Para podermos correr este projeto sem problemas devmos cumprir algum requesitos no dispositivo:
+Para podermos correr este projeto, devemos cumprir algum requesitos no dispositivo:
 
 1. Python 3.11.x
 O python pode ser instalado no seu site oficial: https://www.python.org/ ou através da Microsoft Store caso use Windows.
@@ -19,7 +19,7 @@ Para a base de dados, devemos ter um servidor MySQL a correr no dispositivo, par
 
 ## 🤔 Como correr localmente
 
-1. Para correr o projeto, primeiramente devemos descarrega-lo.
+1. Para correr o projeto, primeiramente devemos descarregá-lo.
 
 ```bash
 git clone https://github.com/itsjaof/PAP
@@ -31,7 +31,7 @@ git clone https://github.com/itsjaof/PAP
 cd PAP
 ```
 
-3. Criar ambiente virtual e instalar as dependências.
+3. Criar o ambiente virtual.
 
 ```bash
 python -m venv venv
