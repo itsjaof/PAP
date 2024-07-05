@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, abort,
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
 from datetime import datetime
-from routes import db, sess, Auth, Messages, Agenda
+from routes import db, sess, Auth, Messages, Agenda, Testemunhos
 import os
 
 dashboard_routes = Blueprint('dashboard', __name__)
@@ -27,13 +27,16 @@ def get_user_picture():
         if query:
             g.user_type = query.type
             g.user_picture = query.picture
+            g.user_name = query.name
     else:
         g.user_type = None
         g.user_picture = None
+        g.user_name = None
 
 @dashboard_routes.context_processor
 def inject_user_picture():
-    return dict(user_picture=g.get('user_picture', None))
+    return dict(user_picture=g.get('user_picture', None), 
+                user_name=g.get('user_name', None))
 
 @dashboard_routes.route('/dashboard')
 def dashboard():
@@ -125,7 +128,9 @@ def profile():
     check_session()
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/profile.html', user=user)
+    testemunho = db.session.execute(db.select(Testemunhos).filter_by(userid=user.id)).scalar_one_or_none()
+
+    return render_template('dashboard/profile.html', user=user, testemunho=testemunho)
 
 @dashboard_routes.route('/update-profile-picture', methods=['POST'])
 def update_profile_picture():
@@ -179,3 +184,14 @@ def temp():
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
 
     return render_template('temp.html', user=user)
+
+@dashboard_routes.route('/send-testemunho', methods=['POST'])
+def send_testemunho():
+    toCommit = Testemunhos()
+    toCommit.userid = db.one_or_404(db.select(Auth).filter_by(username=session['username'])).id
+    toCommit.testemunho = request.form.get("testemunho")
+
+    db.session.add(toCommit)
+    db.session.commit()
+    
+    return jsonify({"sucess": "Testemunho enviado com sucesso!"}), 200

@@ -4,7 +4,7 @@
   <meta charsetUTF-8" />
   <title>Alhandra Rio | Painel de Controlo</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
-  <link rel="cut icon" typeimage="/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}"/>
+  <link rel="icon" type="image/x-icon" href={{favicon}}>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
@@ -31,20 +31,32 @@
               <button style="background-color: #966100">Guardar Alterações</button>
             </form>
           </div>
+          {% if not testemunho %}
+            <div class="box">
+              <form action="/send-testemunho" method="post" id="testemunho">
+                <h3 style="color: #966100;">Testemunho</h3><br />
+                <label for="testemunho">Escreva o seu testemunho:</label><br />
+                <input type="text" name="testemunho" id=""><br />
+                <button style="background-color: #966100">Guardar Alterações</button>
+              </form>
+            </div>
+          {% endif %}
       </section>
     </section>
 
     {% include "shared/notification.html" %}
 
     <script>
-      document.addEventListener('submit', async (event) => {
+      const picture = document.querySelector('#profile-picture')
+      const testemunho = document.querySelector('#testemunho')
+
+      picture.addEventListener('submit', async (event) => {
         event.preventDefault()
         event.stopPropagation()
-        
-        if (event.target.id == 'profile-picture') {
-          const formData = new FormData(event.target)
-          const url = event.target.action
-          const response = await fetch(url, {
+
+        const formData = new FormData(event.target)
+        const url = event.target.action
+        const response = await fetch(url, {
             method: 'POST',
             body: formData
           }).then(response => {
@@ -54,10 +66,29 @@
 
             location.reload()
           }).catch((error) => {
-            sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+            sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.")
             throw error;
           })
-        }
+      })
+
+      testemunho.addEventListener('submit', async (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+
+        const formData = new FormData(event.target)
+        const url = event.target.action
+        const response = await fetch(url, {
+          method: 'POST',
+          body: formData
+        }).then(response => {
+          if(!response.ok) {
+            throw new Error(`HTTP ${response.status} ${response.statusText}`)
+          }
+
+          location.reload()
+        }).catch((error) => {
+          sendNotification("error", "Erro ao enviar o pedido!", "Tente novamente mais tarde.")
+        })
       })
     </script>
   </div>

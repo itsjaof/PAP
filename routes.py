@@ -13,13 +13,13 @@ sess = Session()
 
 # Declaração das tabelas, para que possam ser usadas
 class Agenda(db.Model):
-    teacher_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('auth.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey('auth.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     date = db.Column(db.Date, primary_key=True, nullable=False)
     type = db.Column(db.Enum('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME'), nullable=False)
 
 class Testemunhos(db.Model):
-    userid = db.Column(db.Integer, db.ForeignKey('auth.id'), primary_key=True, nullable=False)
+    userid = db.Column(db.Integer, db.ForeignKey('auth.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     testemunho = db.Column(db.String(250), nullable=False)
 
 class Auth(db.Model):

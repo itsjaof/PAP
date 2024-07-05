@@ -11,7 +11,7 @@ from dashboard_routes import dashboard_routes
 app = Flask(__name__, template_folder='templates', static_folder='dist')
 
 # Configuração da conexão à base de dados (flask_sqlalchemy)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://{}:{}@localhost:3307/pap'.format(
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+mysqlconnector://{}:{}@192.168.1.119:3307/pap'.format(
     os.environ.get('MYSQL_USERNAME'), 
     os.environ.get('MYSQL_PASSWORD')
 )

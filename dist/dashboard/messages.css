@@ -280,6 +280,23 @@ a:hover{
   margin-bottom: 1rem;
 }
 
+input {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none; 
+  border-color: #a58e55;
+  box-shadow: 0 0 5px rgba(165, 142, 85, 0.5);
+  background-color: #fff;
+}
+
 .popup-content button {
   color: #666;
   padding: 0.5rem;
