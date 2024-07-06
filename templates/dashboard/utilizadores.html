@@ -32,11 +32,13 @@
                     <p><strong>Nome:</strong> {{user.name}}</p>
                     <p><strong>Email:</strong> {{user.email}}</p>
                     <p><strong>Nível de Permissões:</strong> {{user.type}}</p>
-                  
-                    <form class="remove-user" id="{{ user_id }}" action="/remove/{{ user.id }}" method="post">
-                      <button style="background-color: #966100;">Editar</button>
-                      <button type="submit" style="background-color: red;">Remover</button>
-                    </form>
+
+                    <button style="background-color: #966100;" 
+                        onclick="openUpdateForm('{{ user.id }}', '{{ user.username }}', '{{ user.name }}', '{{ user.email }}', '{{ user.type }}')">
+                        Editar
+                    </button>
+
+                    <button type="submit" style="background-color: red;" onclick="removeUser('{{ user.id }}')">Remover</button>
                   </div>
               </div>
             {% endif %}
@@ -66,8 +68,7 @@
                 <label for="type">Tipo:</label>
                 <select id="type" name="type" required>
                   <option value="USER">Aluno</option>
-                  <option value="INSTRUTOR">Instrutor</option>
-                  <option value="STAFF">Colaborador</option>
+                  <option value="STAFF">Staff</option>
                   <option value="ADMIN">Administrador</option>
                 </select><br><br>
           
@@ -79,10 +80,42 @@
             </div>
           </div>
 
+          <div id="updatePopupForm" class="popup-box" style="display: none;">
+            <div class="popup-content">
+                <form id="update-form" class="update-form" method="post">
+                    <h2>Atualizar Utilizador</h2><br>
+            
+                    <label for="update-username">Utilizador:</label>
+                    <input type="text" name="username" id="update-username">
+        
+                    <label for="update-name">Nome:</label>
+                    <input type="text" name="name" id="update-name">
+        
+                    <label for="update-email">Email:</label>
+                    <input type="email" name="email" id="update-email">
+        
+                    <label for="update-password">Palavra-Passe:</label>
+                    <input type="password" name="password" id="update-password">
+            
+                    <label for="update-type">Tipo:</label>
+                    <select id="update-type" name="type">
+                        <option value="USER">Aluno</option>
+                        <option value="STAFF">Staff</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select><br><br>
+            
+                    <button class="submit-button" type="submit">Atualizar</button>
+                </form>
+                <button id="close-update-form-button" class="close-button" onclick="closeUpdateForm()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+        
+
           {% include "shared/notification.html" %}
 
           <script>
-            const form = document.querySelector(".remove-user")
             const addForm = document.querySelector(".add-form")
 
             function openForm() {
@@ -95,26 +128,47 @@
               document.querySelector('body').style.overflow = 'auto'
             }
 
-            form.addEventListener('submit', async (event) => {
-              event.preventDefault()
-              event.stopPropagation()
-
-              const formData = new FormData(form)
-              const url = form.action
-              const response = await fetch(url, {
-                method: 'POST',
-                body: formData
-              }).then(response => {
-                if(!response.ok) {
-                  throw new Error(`HTTP ${response.status} ${response.statusText}`)
+            function openUpdateForm(userId, username, name, email, type) {
+                document.getElementById('update-username').value = username;
+                document.getElementById('update-name').value = name;
+                document.getElementById('update-email').value = email;
+                document.getElementById('update-type').value = type;
+            
+                document.getElementById('update-form').action = `/update-user/${userId}`;
+            
+                document.getElementById('updatePopupForm').style.display = 'block';
+                document.querySelector('body').style.overflow = 'hidden';
+            }
+          
+            function closeUpdateForm() {
+                document.getElementById('updatePopupForm').style.display = 'none';
+                document.querySelector('body').style.overflow = 'auto';
+            }
+          
+            document.getElementById('update-form').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            
+                const formData = new FormData(event.target);
+                const url = event.target.action;
+            
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    });
+                  
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+                    }
+                  
+                    closeUpdateForm();
+                    sendNotification("success", "Sucesso!", "Utilizador atualizado com sucesso.");
+                } catch (error) {
+                    sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.");
+                    console.error("Error updating user:", error);
                 }
-
-                sendNotification("sucess", "Sucesso", "Utilizador removido.")
-              }).catch((error) => {
-                sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
-                throw error;
-              })
-            })
+            });
 
           addForm.addEventListener('submit', async (event) => {
             event.preventDefault()
@@ -145,6 +199,20 @@
               throw error;
             })
           })
+
+          function removeUser(userid) {
+            fetch('/remove/' + userid, {
+              method: 'POST'
+            }).then(response => {
+              if(!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`)
+              }
+
+              sendNotification("sucess", "Sucesso", "Utilizador removido.")
+            }).catch((error) => {
+              sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+            })
+          }
           </script>
       </div>
       </section>

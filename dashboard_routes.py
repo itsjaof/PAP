@@ -123,6 +123,25 @@ def adduser():
 
     return jsonify({"sucess" : "Utilizador criado com sucesso!"}), 200
 
+@dashboard_routes.route('/update-user/<int:user_id>', methods=['POST'])
+def update(user_id):
+    check_session_type('ADMIN')
+
+    to_update = Auth.query.filter_by(id=user_id).first()
+
+    if not to_update:
+        return jsonify({"error": "Utilizador não encontrado"}), 404
+    
+    fields = ['username', 'password', 'name', 'type', 'email']
+
+    for field in fields:
+        if request.form.get(field):
+            setattr(to_update, field, request.form.get(field))
+    
+    db.session.commit()
+
+    return jsonify({"sucess": "Utilizador atualizado com sucesso"}), 200
+
 @dashboard_routes.route('/dashboard/perfil')
 def profile():
     check_session()
