@@ -103,8 +103,22 @@ def messages():
 
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
+@dashboard_routes.route('/delete-message/<int:id>', methods=['POST'])
+def delete_message(id):
+    if check_session():
+        return check_session()
+    
+    message = Messages.query.filter_by(id=id).first()
+
+    if message:
+        db.session.delete(message)
+        db.session.commit
+        return jsonify({"sucess" : "Mensagem eliminada com sucesso!"}), 200
+
+    return jsonify({"error": "Ocorreu um erro ao eliminar a mensagem."}), 500
+
 """
-    MENSAGENS
+    AGENDA
 """
 
 @dashboard_routes.route('/dashboard/agenda', methods=['GET'])

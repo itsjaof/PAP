@@ -345,3 +345,7 @@ input:focus {
     opacity: 1;
   }
 }
+
+.main-top h1 {
+  color: #966100;
+}

@@ -29,7 +29,7 @@
 
                   <button onclick="window.location.href = 'mailto:{{ content.email }}'">Enviar Através do Outlook</button>
                   <button onclick="window.open('https://mail.google.com/mail/?view=cm&to={{content.email}}&su=Resposta - Escola de Condução', '_blank')">Enviar Através do Gmail</button>
-                  <button style="background-color: red;">Remover</button>
+                  <button id="remove-button" style="background-color: red;" onclick="deleteMessage('{{ content.id }}')">Remover</button>
                 </div>
              {% endfor %}
           </div>
@@ -37,5 +37,23 @@
     </section>    
     </section>
   </div>
+
+  <script>
+    function deleteMessage(id) {
+          const url = document.getElementById('remove-button').action = '/delete-message/' + id
+
+          fetch(url, {
+            method: 'POST',
+          }).then((response) => {
+            if(!response.ok) {
+              throw new Error(`HTTP ${response.status} ${response.statusText}`)
+            }
+
+            location.reload()
+          }).catch((error) => {
+            sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.")
+          })
+        }
+  </script>
 </body>
 </html>

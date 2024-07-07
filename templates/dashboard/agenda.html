@@ -27,7 +27,8 @@
                     <p><strong>Instrutor:</strong> {{ content.teacher_name }}</p>
                     <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                     <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
-                    <button style="background-color: #966100;" onclick="'mailto:{{ content.teacher_email }}?subject=INSIRA O ASSUNTO AQUI (Aula 24/01/2023)'">Enviar Mensagem</button>
+                    <button style="background-color: #966100;" onclick="'mailto:{{ content.teacher_email }}?subject=INSIRA O ASSUNTO'">Enviar através do Outlook</button>
+                    <button style="background-color: #966100;" onclick="window.open('https://mail.google.com/mail/?view=cm&to={{content.teacher_email}}&su=INSIRA O ASSUNTO', '_blank')">Enviar através do Gmail</button>
                   </div>
                 {% endif %}
               {% endfor %}
