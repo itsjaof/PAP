@@ -24,12 +24,11 @@
                   <p><strong>ID:</strong> {{ content.id }}</p>
                   <p><strong>Enviado por:</strong> {{ content.name }}</p>
                   <i class="fas fa-envelope" style="color: #966100;"></i>
+                  <p><strong>Email:</strong> {{ content.email }}</p>
                   <p><strong>Mensagem:</strong> {{ content.message }}</p>
 
-                  <!-- Se quiser alterar o modo de enviar email para o gmail, devo usar este link
-                  https://mail.google.com/mail/?view=cm&to=recipient@example.com&su=Your%20Subject -->
-
-                  <button onclick="window.location.href = 'mailto:{{ content.email }}'">Enviar email</button>
+                  <button onclick="window.location.href = 'mailto:{{ content.email }}'">Enviar Através do Outlook</button>
+                  <button onclick="window.open('https://mail.google.com/mail/?view=cm&to={{content.email}}&su=Resposta - Escola de Condução', '_blank')">Enviar Através do Gmail</button>
                   <button style="background-color: red;">Remover</button>
                 </div>
              {% endfor %}

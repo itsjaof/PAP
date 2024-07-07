@@ -41,7 +41,7 @@
                     <p><strong>Aluno:</strong> {{ content.student_name }}</p>
                     <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
                     <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
-                    <button style="background-color: #966100;" onclick="alert('Esta operação não pode ser revertida. Deseja continuar?')">Eliminar</button>
+                    <button id="remove-button" style="background-color: #966100;" type="submit" onclick="deleteSchedule('{{content.teacher_id}}', '{{content.student_id}}', '{{content.date}}', '{{content.type}}')">Eliminar</button>
                   </div>
                 {% endif %}
               {% endfor %}
@@ -107,6 +107,29 @@
         const closeButton = document.getElementById('close-form-button')
 
         const form = document.querySelector('#agenda-form')
+
+        const deleteData = new FormData()
+        function deleteSchedule(teacher_id, student_id, date, type) {
+          deleteData.append("teacher_id", teacher_id)
+          deleteData.append("student_id", student_id)
+          deleteData.append("date", date)
+          deleteData.append("type", type)
+
+          const url = document.getElementById('remove-button').action = '/delete-schedule'
+
+          fetch(url, {
+            method: 'POST',
+            body: deleteData
+          }).then((response) => {
+            if(!response.ok) {
+              throw new Error(`HTTP ${response.status} ${response.statusText}`)
+            }
+
+            location.reload()
+          }).catch((error) => {
+            sendNotification("error", "Ocorreu um erro!", `Tente novamente mais tarde.`)
+          })
+        }
 
         form.addEventListener('submit', async (event) => {
           event.preventDefault()

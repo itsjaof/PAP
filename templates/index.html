@@ -129,7 +129,11 @@
                         <div class="image-content">
                             <span class="overlay"></span>
                             <div class="card-image">
-                                <img src="{{ url_for('static', filename='home/testemunhos/default.png') }}" alt="" class="card-img">
+                                {% if content.picture == 1 %}
+                                <img src="{{ url_for('static', filename='/uploads/' + content.username + '.png') }}" alt="" class="card-img">
+                                {% else %}
+                                  <img src="{{ url_for('static', filename='users/default.png') }}" alt="" class="card-img">
+                                {% endif %}
                             </div>
                         </div>
 
@@ -181,7 +185,7 @@
                 <div class="right-side">
                   <div class="topic-text">Envie-nos uma mensagem</div>
                   <p>Em caso de dúvidas poderá enviar-nos uma mensagem, preenchendo os campos abaixo.</p>
-                <form method="POST" action="/">
+                <form id="message-form" method="POST" action="/send-message">
                   <div class="input-box">
                     <input id="name" name="name" type="text" placeholder="Nome" required>
                   </div>
@@ -199,6 +203,33 @@
               </div>
             </div>
           </section>
+
+          {% include "shared/notification.html" %}
+
+          <script>
+            const messageForm = document.getElementById('message-form')
+
+            messageForm.addEventListener('submit', async (event) => {
+              event.preventDefault()
+              event.stopPropagation()
+
+              const formData = new FormData(event.target)
+              const url = event.target.action
+
+              const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+              }).then(response => {
+                if(!response.ok) {
+                  throw new Error(`HTTP ${response.status} ${response.statusText}`)
+                }
+
+                location.reload()
+              }).catch((error) => {
+                console.error('Ocorreu um erro ao enviar a mensagem.')
+              })
+            })
+          </script>
           
     </main>
 </body>

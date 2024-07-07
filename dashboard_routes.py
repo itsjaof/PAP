@@ -7,15 +7,42 @@ import os
 
 dashboard_routes = Blueprint('dashboard', __name__)
 
+"""
+    VERIFICAR SESSÃO
+    
+    Esta função tem como objetivo verificar se existe uma sessão ativa,
+    caso não exista, retorna o erro 403 (PROÍBIDO)
+"""
+
 def check_session():
     if not session.get('username'):
-        raise abort(500, 'AUTH_COOKIE_NOT_FOUND')
+        return redirect(url_for('routes.auth'))
+    
+    return None
+
+"""
+    VERIFICAR SESSÃO POR PERMISSÃO
+    
+    Esta função tem como objetivo verificar se a sessão ativa pertence a um grupo de utilizadores,
+    caso não pertença, retorna o erro 403 (PROÍBIDO)
+"""
 
 def check_session_type(TYPE):
     print('\n\n' + g.user_type + '\n\n')
 
     if not g.user_type == TYPE:
         raise abort(403)
+
+"""
+    BEFORE REQUEST
+
+    Esta função é chamada a cada pedido que for enviado para o servidor, tem como objetivo:
+    1. Verificar se existe uma sessão ativa;
+    2. Verificar se o utilizador tem uma foto de perfil acossiada,
+    caso tenha, guarda-a na variável `user_picture`, para poder ser utilizada;
+    3. Guardar o grupo de permissões do utilizado na variável `user_type`;
+    4. Guardar o nome do utilizado na variável `user_name`.
+"""
 
 @dashboard_routes.before_request
 def get_user_picture():
@@ -33,10 +60,21 @@ def get_user_picture():
         g.user_picture = None
         g.user_name = None
 
+"""
+    CONTEXT PROCESSOR
+
+    Esta função tem como objetivo injetar a variável user_picture e user_name no código,
+    para que possa ser utilizada quando necessário.
+"""
+
 @dashboard_routes.context_processor
 def inject_user_picture():
     return dict(user_picture=g.get('user_picture', None), 
                 user_name=g.get('user_name', None))
+
+"""
+    PÁGINA PRINCIPAL
+"""
 
 @dashboard_routes.route('/dashboard')
 def dashboard():
@@ -48,9 +86,14 @@ def dashboard():
 
     return render_template('/dashboard/dashboard.html', user=user, current_time=current_time)
 
+"""
+    MENSAGENS
+"""
+
 @dashboard_routes.route('/dashboard/messages')
 def messages():
-    check_session()
+    if check_session():
+        return check_session()
     
     messages = Messages.query.all()
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
@@ -60,9 +103,14 @@ def messages():
 
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
+"""
+    MENSAGENS
+"""
+
 @dashboard_routes.route('/dashboard/agenda', methods=['GET'])
 def submit_agenda():
-    check_session()
+    if check_session():
+        return check_session()
 
     students = Auth.query.filter_by(type="USER")
     agenda = Agenda.query.all()
@@ -71,21 +119,18 @@ def submit_agenda():
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     for content in agenda:
-        teacher_name = Auth.query.get(content.teacher_id).name
-        teacher_username = Auth.query.get(content.teacher_id).username
-        teacher_email= Auth.query.get(content.teacher_id).email
-        student_name = Auth.query.get(content.student_id).name
-        
-        content.teacher_name = teacher_name
-        content.teacher_username = teacher_username
-        content.teacher_email = teacher_email
-        content.student_name = student_name
+        content.teacher_name = Auth.query.get(content.teacher_id).name
+        content.teacher_username = Auth.query.get(content.teacher_id).username
+        content.id = Auth.query.get(content.teacher_id).id
+        content.teacher_email= Auth.query.get(content.teacher_id).email
+        content.student_name = Auth.query.get(content.student_id).name
 
     return render_template('dashboard/agenda.html', user=user, students=students, user_id=user_id, agenda=agenda, user_type=user_type)
 
 @dashboard_routes.route('/submit-agenda', methods=['POST'])
 def agenda():
-    check_session()
+    if check_session():
+        return check_session()
 
     teacher = db.one_or_404(db.select(Auth).filter_by(username = session['username'])).id
     student = db.one_or_404(db.select(Auth).filter_by(username = request.form.get('student'))).id
@@ -104,6 +149,43 @@ def agenda():
     db.session.commit()
 
     return jsonify({"sucess" : "Agendamento criado com sucesso!"}), 200
+
+@dashboard_routes.route('/delete-schedule', methods=['POST'])
+def delete_agenda():
+    if check_session():
+        return check_session()
+
+    teacher_id = request.form.get('teacher_id')
+    student_id = request.form.get('student_id')
+    date = request.form.get('date')
+    type = request.form.get('type')
+
+    schedule = Agenda.query.filter_by(
+        teacher_id=teacher_id,
+        student_id=student_id,
+        date=date,
+        type=type
+    ).first()
+
+    if schedule:
+        db.session.delete(schedule)
+        db.session.commit
+        return jsonify({"sucess" : "Agendamento eliminado com sucesso!"}), 200
+
+    return jsonify({"error" : "Ocorreu um erro ao eliminar o agendamento."}), 500
+
+"""
+    UTILIZADORES
+"""
+
+@dashboard_routes.route('/dashboard/users')
+def users():
+    check_session_type('ADMIN')
+
+    users = Auth.query.all()
+
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+    return render_template('dashboard/utilizadores.html', users=users, user=user)
 
 @dashboard_routes.route('/add-user', methods=['POST'])
 def adduser():
@@ -142,9 +224,24 @@ def update(user_id):
 
     return jsonify({"sucess": "Utilizador atualizado com sucesso"}), 200
 
+@dashboard_routes.route('/remove/<int:user_id>', methods=['POST'])
+def remove(user_id):
+    check_session_type('ADMIN')
+
+    user = db.one_or_404(db.select(Auth).filter_by(id=user_id))
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({"sucess": "Utilizador removido com sucesso"}), 200
+
+"""
+    PERFIL
+"""
+
 @dashboard_routes.route('/dashboard/perfil')
 def profile():
-    check_session()
+    if check_session():
+        return check_session()
 
     user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
     testemunho = db.session.execute(db.select(Testemunhos).filter_by(userid=user.id)).scalar_one_or_none()
@@ -153,7 +250,8 @@ def profile():
 
 @dashboard_routes.route('/update-profile-picture', methods=['POST'])
 def update_profile_picture():
-    check_session()
+    if check_session():
+        return check_session()
 
     if 'profile-picture' not in request.files:
         return jsonify({'error': 'O ficheiro enviado não é válido.'}), 500
@@ -167,43 +265,6 @@ def update_profile_picture():
 
     return jsonify({"sucesso": "foto de perfil atualizada com sucesso."}), 200
 
-@dashboard_routes.route('/dashboard/users')
-def users():
-    check_session_type('ADMIN')
-
-    users = Auth.query.all()
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/utilizadores.html', users=users, user=user)
-
-@dashboard_routes.route('/dashboard/marcar')
-def marcar():
-    check_session()
-
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-    return render_template('dashboard/marcar.html', user=user)
-
-@dashboard_routes.route('/search-message-email', methods=['POST'])
-def search_message_email():
-    ...
-
-@dashboard_routes.route('/remove/<int:user_id>', methods=['POST'])
-def remove(user_id):
-    check_session_type('ADMIN')
-
-    user = db.one_or_404(db.select(Auth).filter_by(id=user_id))
-    db.session.delete(user)
-    db.session.commit()
-
-    return jsonify({"sucess": "Utilizador removido com sucesso"}), 200
-
-@dashboard_routes.route('/temp')
-def temp():
-    check_session()
-    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
-
-    return render_template('temp.html', user=user)
-
 @dashboard_routes.route('/send-testemunho', methods=['POST'])
 def send_testemunho():
     toCommit = Testemunhos()
@@ -214,3 +275,14 @@ def send_testemunho():
     db.session.commit()
     
     return jsonify({"sucess": "Testemunho enviado com sucesso!"}), 200
+
+"""
+PÁGINA DE TEMPLATE
+
+@dashboard_routes.route('/temp')
+def temp():
+    check_session()
+    user = db.one_or_404(db.select(Auth).filter_by(username=session['username']))
+
+    return render_template('temp.html', user=user)
+"""
