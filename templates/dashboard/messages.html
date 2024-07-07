@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Alhandra Rio | Painel de Controlo</title>
   
-  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/child.css') }}" />
   <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -53,7 +53,7 @@
           }).catch((error) => {
             sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.")
           })
-        }
+    }
   </script>
 </body>
 </html>

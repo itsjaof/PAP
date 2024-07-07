@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html="pt-PT">
+<html lang="pt-PT">
 <head>
   <meta charsetUTF-8" />
   <title>Alhandra Rio | Painel de Controlo</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/messages.css') }}" />
-  <link rel="icon" type="image/x-icon" href={{favicon}}>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/child.css') }}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='shared/img/favicon.ico') }}">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
@@ -87,7 +87,7 @@
 
           location.reload()
         }).catch((error) => {
-          sendNotification("error", "Erro ao enviar o pedido!", "Tente novamente mais tarde.")
+          sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.")
         })
       })
     </script>

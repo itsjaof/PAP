@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, request, session, redirect, abort, jsonify, url_for, current_app, g
-from flask_sqlalchemy import SQLAlchemy
-from flask_session import Session
 from datetime import datetime
-from routes import db, sess, Auth, Messages, Agenda, Testemunhos
+from routes import db, Auth, Messages, Agenda, Testemunhos
 import os
 
 dashboard_routes = Blueprint('dashboard', __name__)
@@ -28,8 +26,6 @@ def check_session():
 """
 
 def check_session_type(TYPE):
-    print('\n\n' + g.user_type + '\n\n')
-
     if not g.user_type == TYPE:
         raise abort(403)
 
