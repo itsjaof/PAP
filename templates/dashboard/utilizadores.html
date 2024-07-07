@@ -208,7 +208,7 @@
                 throw new Error(`HTTP ${response.status} ${response.statusText}`)
               }
 
-              sendNotification("sucess", "Sucesso", "Utilizador removido.")
+              location.reload()
             }).catch((error) => {
               sendNotification("error", "Ocorreu um erro!", "Tente novamente mais tarde.")
             })

@@ -99,12 +99,12 @@ def messages():
 
     return render_template('dashboard/messages.html', messages=messages, user=user)
 
-@dashboard_routes.route('/delete-message/<int:id>', methods=['POST'])
-def delete_message(id):
+@dashboard_routes.route('/delete-message/<int:user_id>', methods=['POST'])
+def delete_message(user_id):
     if check_session():
         return check_session()
     
-    message = Messages.query.filter_by(id=id).first()
+    message = Messages.query.filter_by(id=user_id).first()
 
     if message:
         db.session.delete(message)

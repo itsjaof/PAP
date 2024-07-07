@@ -46,6 +46,17 @@
                   </div>
                 {% endif %}
               {% endfor %}
+            {% elif user_type == 'ADMIN' %}
+                {% for content in agenda %}
+                  <div class="box">
+                    <p><strong>Data:</strong> {{ content.date }}</p>
+                    <p><strong>Aluno:</strong> {{ content.student_name }}</p>
+                    <i class="fas fa-solid fa-chalkboard-user" style="color: #966100;"></i>
+                    <p><strong>Instrutor:</strong> {{ content.teacher_name }}</p>
+                    <p><strong>Tipo:</strong> {{ content.type.capitalize() }}</p>
+                    <button id="remove-button" style="background-color: #966100;" type="submit" onclick="deleteSchedule('{{content.teacher_id}}', '{{content.student_id}}', '{{content.date}}', '{{content.type}}')">Eliminar</button>
+                  </div>
+                {% endfor %}
             {% endif %}
           </div>
       </section>

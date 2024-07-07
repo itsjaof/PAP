@@ -19,7 +19,7 @@ sess = Session()
     - `date`: Data do agendamento, é parte da chave primária composta.
     - `type`: Tipo de agendamento, que pode ser um dos valores pré-definidos ('CÓDIGO', 'TEÓRICA', 'SIMULADOR', 'EXAME').
 
-    Relacionamentos:
+    Relações:
     - O relacionamento entre 'teacher_id' e 'student_id' é gerido com exclusão em cascata ('CASCADE'),
       o que significa que, se um professor ou aluno for removido, todos os compromissos associados também serão removidos.
 """
@@ -37,7 +37,7 @@ class Agenda(db.Model):
     - `userid`: ID do utilizador que fez o testemunho, é uma chave estrangeira que referencia 'auth.id' com exclusão em cascata.
     - `testemunho`: O texto do testemunho, limitado a 250 caracteres.
 
-    Relacionamentos:
+    Relações:
     - Quando um utilizador é eliminado, todos o seu testemunho associado (caso exista) é removido devido à configuração de exclusão em cascata.
 """
 
@@ -57,7 +57,7 @@ class Testemunhos(db.Model):
     - `picture`: Caso exista uma foto de perfil no servidor o valor é 1, caso contrário é 0.
     - `type`: Tipo de utilizador, que pode ser um dos valores pré-definidos ('USER', 'INSTRUTOR', 'ADMIN', 'STAFF').
 
-    Relacionamentos:
+    Relações:
     - `agenda_teacher`: Relaciona os agendamentos onde o utilizador é um professor.
     - `agenda_student`: Relaciona os agendamentos onde o utilizador é um estudante.
     - `testemunhos_user`: Relaciona o testemunho associado ao utilizador.
@@ -70,11 +70,11 @@ class Auth(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
     picture = db.Column(db.Integer)
-    type = db.Column(db.Enum('USER', 'INSTRUTOR', 'ADMIN', 'STAFF'), nullable=False)
+    type = db.Column(db.Enum('USER', 'STAFF', 'ADMIN'), nullable=False)
 
-    agenda_teacher = db.Relationship('Agenda', backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
-    agenda_student = db.Relationship('Agenda', backref='student', lazy=True, foreign_keys=[Agenda.student_id])
-    testemunhos_user = db.Relationship('Testemunhos', backref='user', lazy=True, foreign_keys=[Testemunhos.userid])
+    agenda_teacher = db.Relationship('Agenda', cascade="all, delete-orphan", backref='teacher', lazy=True, foreign_keys=[Agenda.teacher_id])
+    agenda_student = db.Relationship('Agenda', cascade="all, delete-orphan", backref='student', lazy=True, foreign_keys=[Agenda.student_id])
+    testemunhos_user = db.Relationship('Testemunhos', cascade="all, delete-orphan", backref='user', lazy=True, foreign_keys=[Testemunhos.userid])
 
 """
     MESSAGES

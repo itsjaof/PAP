@@ -61,22 +61,12 @@
           </div>
       </div>
   </section>
-
-    <!--
-        WEBSITE MAIN CONTENT
-    -->
-
     <main>
-        <!--
-            FEATURES
-        -->
-
         <section class="cartas" id="cartas">
             <div class="row">
               <h1>Cartas Disponíveis</h1>
             </div>
             <div class="row">
-              <!-- Column One -->
               <div class="column">
                 <div class="card">
                   <div class="icon">
@@ -86,7 +76,6 @@
                   <p>B e BE</p>
                 </div>
               </div>
-              <!-- Column Two -->
               <div class="column">
                 <div class="card">
                   <div class="icon">
@@ -96,7 +85,6 @@
                   <p>A1, A2 e A</p>
                 </div>
               </div>
-              <!-- Column Three -->
               <div class="column">
                 <div class="card">
                   <div class="icon">
@@ -109,14 +97,6 @@
             </div>
           </section>
 
-          <!--
-            TESTEMUNIALS
-
-            TODO:
-            - Base de dados para os testemunhos;
-            - Criar uma página na dashboard para os utilizadores darem o seu testemunho
-          -->
-
           <section class="testemunhos" id="testemunhos">
             <div class="slide-container swiper">
               <div class="row">
@@ -124,25 +104,41 @@
               </div>
               <div class="slide-content">
                   <div class="card-wrapper swiper-wrapper">
-                    {% for content in testemunhos %}
-                      <div class="card swiper-slide">
-                        <div class="image-content">
-                            <span class="overlay"></span>
-                            <div class="card-image">
-                                {% if content.picture == 1 %}
-                                <img src="{{ url_for('static', filename='/uploads/' + content.username + '.png') }}" alt="" class="card-img">
-                                {% else %}
-                                  <img src="{{ url_for('static', filename='users/default.png') }}" alt="" class="card-img">
-                                {% endif %}
-                            </div>
-                        </div>
+                    {% if testemunhos %}
+                      {% for content in testemunhos %}
+                        <div class="card swiper-slide">
+                          <div class="image-content">
+                              <span class="overlay"></span>
+                              <div class="card-image">
+                                  {% if content.picture == 1 %}
+                                  <img src="{{ url_for('static', filename='/uploads/' + content.username + '.png') }}" alt="" class="card-img">
+                                  {% else %}
+                                    <img src="{{ url_for('static', filename='users/default.png') }}" alt="" class="card-img">
+                                  {% endif %}
+                              </div>
+                          </div>
 
-                        <div class="card-content">
-                            <h2 class="name">{{ content.name }}</h2>
-                            <p class="description">{{ content.testemunho }}</p>
+                          <div class="card-content">
+                              <h2 class="name">{{ content.name }}</h2>
+                              <p class="description">{{ content.testemunho }}</p>
+                          </div>
                         </div>
+                      {% endfor %}
+                    {% else %}
+                    <div class="card swiper-slide">
+                      <div class="image-content">
+                          <span class="overlay"></span>
+                          <div class="card-image">
+                              <img src="{{ url_for('static', filename='users/default.png') }}" alt="" class="card-img">
+                          </div>
                       </div>
-                    {% endfor %}
+
+                      <div class="card-content">
+                          <h2 class="name">Sem testemunhos!</h2>
+                          <p class="description">Não há nenhum testemunho para mostrar.</p>
+                      </div>
+                    </div>
+                    {% endif %}
                   </div>
               </div>
   
@@ -151,10 +147,6 @@
               <div class="swiper-pagination"></div>
           </div>
           </section>
-
-          <!--
-            TESTEMUNIALS
-          -->
 
           <div class="row">
             <h1>Contactos</h1>
